@@ -1,0 +1,198 @@
+.mainContainer{
+    background-image:url(../Pictures/background.jpg);
+    height:900px;
+
+    header{
+        height:60px;
+        width:1000px;
+        margin:0 auto;
+        button{
+            float:right;
+            padding:10px;
+            font-size:20px;
+            border-radius:30%;
+            margin:10px 20px 0px 0px;
+        }
+        .balance{
+            display:inline-block;
+            color:white;
+            font-size:20px;
+            padding:10px 20px 10px 20px;
+            background-color:rgba(0 , 0, 0, 0.7);
+            border-radius: 20%;
+            margin-top:7px;
+
+        }
+        .bet{
+            display:inline-block;
+            color:white;
+            font-size:20px;
+            padding:10px 20px 10px 20px;
+            background-color:rgba(0 , 0, 0, 0.7);
+            margin-left: 10px;
+            border-radius: 20%;
+            margin-top:7px;
+
+
+        }
+    }
+    .gameTable{
+        background-image:url(../Pictures/blackjackTable.png);
+        height:500px;
+        width:1000px;
+        margin:0 auto;
+        background-repeat:no-repeat;
+        .dealerHand{
+            height:195px;
+            display:flex;
+            justify-content: center;
+            margin-left:-80px;
+            .placedDealerCards{
+                display:block;
+                .dealerFirstCard, .dealerSecondCard, .dealerThirdCard, .dealerFourthCard, .dealerFifthCard, .dealerSixthCard, .dealerSeventhCard{
+                   width:58px;
+                   height:73px;
+                   margin-top:30px;
+                   margin-left:5px;
+                   background-color:red;
+                   display:inline-block;
+               }
+               .dealerPoints{
+                   display:block;
+                   text-align: center;
+                   border: 1px solid red;
+                   font-size: 25px;
+               }
+            }
+
+
+        }
+        .playerHand{
+            height:200px;
+            display:flex;
+            justify-content: center;
+            align-items: flex-end;
+            margin-left:-80px;
+            .decisionBtns{
+                position:absolute;
+                top:250px;
+                .decBtn1, .decBtn2, .decBtn3{
+                    color: #F9F8F8;
+                    margin:10px;
+                    padding:20px;
+                    background-color:rgba(0 , 0, 0, 0.7);
+                    border-radius: 5%;
+                    font-size:20px;
+                    border: 1px solid #333333;
+                }
+                .decBtn1:hover, .decBtn2:hover, .decBtn3:hover{
+                    background-color:rgba(0 , 0, 0, 0.9);
+                    border-radius:20%;
+                    transition:0.5s;
+                    cursor:pointer;
+                }
+            }
+            .placedPlayerCards{
+                .playerPoints{
+                    display:block;
+                    text-align: center;
+                    border: 1px solid red;
+                    font-size: 25px;
+                }
+                .playerFirstCard{
+                    width:58px;
+                    height:73px;
+                    display:inline-block;
+                }
+                .playerSecondCard, .player3Card, .player4Card, .player5Card, .player6Card, .player7Card{
+                    display:inline-block;
+                }
+            }
+        }
+        .chips{
+            height:71px;
+            position:relative;
+            margin-top:60px;
+            .chip1:hover, .chip2:hover, .chip3:hover, .chip4:hover, .chip5:hover{
+                cursor:pointer;
+            }
+            .chip1{
+                width:66px;
+                height:71px;
+                position:absolute;
+                background:url('../Pictures/chips/chip-5.png');
+                background-size: contain;
+                border: 0px;
+            }
+            .chip2{
+                width:66px;
+                height:71px;
+                position:absolute;
+                background:url('../Pictures/chips/chip-25.png');
+                left:70px;
+                background-size: contain;
+                border: 0px;
+            }
+            .chip3{
+                width:66px;
+                height:71px;
+                position:absolute;
+                background:url('../Pictures/chips/chip-100.png');
+                left:140px;
+                background-size: contain;
+                border: 0px;
+            }
+            .chip4{
+                width:66px;
+                height:71px;
+                position:absolute;
+                background:url('../Pictures/chips/chip-500.png');
+                left:210px;
+                background-size: contain;
+                border: 0px;
+            }
+            .chip5{
+                width:66px;
+                height:71px;
+                position:absolute;
+                background:url('../Pictures/chips/chip-5k.png');
+                left:280px;
+                background-size: contain;
+                border: 0px;
+            }
+        }
+    }
+    .footer_Btns{
+        .resetBtn{
+            padding:10px 25px 10px 25px;
+            font-size:20px;
+            border-radius:5%;
+            margin: 10px 0 0 20px;
+            background-color:rgba(0 , 0, 0, 0.9);
+            border: 1px solid #333333;
+            color: #F9F8F8;
+        }
+        .confirmBtn{
+            padding:10px 25px 10px 25px;
+            font-size:20px;
+            border-radius:5%;
+            margin:10px 0 0 80px;
+            background-color:rgba(0 , 0, 0, 0.9);
+            border: 1px solid #333333;
+            color: #F9F8F8;
+        }
+
+        .resetBtn:hover, .confirmBtn:hover{
+            cursor:pointer;
+            border-radius:20%;
+            transition:0.5s;
+        }
+
+        .leaveBtn{
+            float:right;
+            font-size:20px;
+            border-radius:30%;
+            padding:10px 20px 10px 20px;
+        }
+    }
+}

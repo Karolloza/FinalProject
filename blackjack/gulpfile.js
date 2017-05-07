@@ -11,7 +11,7 @@ gulp.task("sass", function(){
         outputStyle: "compressed"
     }))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest("css/style.css"))
+    .pipe(gulp.dest("css"))
 })
 
 gulp.task("watch", function(){
