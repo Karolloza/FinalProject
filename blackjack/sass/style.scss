@@ -49,19 +49,21 @@
             margin-left:-80px;
             .placedDealerCards{
                 display:block;
-                .dealerFirstCard, .dealerSecondCard, .dealerThirdCard, .dealerFourthCard, .dealerFifthCard, .dealerSixthCard, .dealerSeventhCard{
+                .dealerFirstCard{
+                    background-color:red;
+                }
+
+                .dealerFirstCard, .dealerSecondCard, .dealerThirdCard{
                    width:58px;
                    height:73px;
                    margin-top:30px;
                    margin-left:5px;
-                   background-color:red;
                    display:inline-block;
                }
                .dealerPoints{
                    display:block;
                    text-align: center;
-                   border: 1px solid red;
-                   font-size: 25px;
+                   font-size: 40px;
                }
             }
 
@@ -96,8 +98,7 @@
                 .playerPoints{
                     display:block;
                     text-align: center;
-                    border: 1px solid red;
-                    font-size: 25px;
+                    font-size: 40px;
                 }
                 .playerFirstCard{
                     width:58px;

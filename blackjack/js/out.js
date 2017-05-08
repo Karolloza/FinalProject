@@ -9445,17 +9445,75 @@ document.addEventListener('DOMContentLoaded', function () {
 
             var _this = _possibleConstructorReturn(this, (MainContent.__proto__ || Object.getPrototypeOf(MainContent)).call(this, props));
 
-            _this.getCard = function () {
-                var randomNumber = function randomNumber(x, y) {
-                    return Math.floor(Math.random() * (y - x + 1)) + x;
-                };
-                var type = randomNumber(0, 1);
+            _this.restartGameBtn = function () {
+                _this.setState({
+                    balance: 2000,
+                    bet: 0,
+                    src: '',
+                    disabledBtnHit: 'disabled',
+                    disabledBtnDouble: 'disabled',
+                    disabledBtnHold: 'disabled',
+                    disabledChip: '',
+                    cardStyle: {
+                        height: "73px",
+                        width: "58px"
+                    },
+                    dealerPoints: 0,
+                    playerPoints: 0,
+                    btn1: {
+                        display: 'none'
+                    },
+                    btn2: {
+                        display: 'none'
+                    },
+                    btn3: {
+                        display: 'none'
+                    },
+                    won: {
+                        fontSize: '100px',
+                        position: 'absolute',
+                        left: '280',
+                        top: '220',
+                        display: 'none',
+                        color: '#35FD00'
+                    },
+                    lost: {
+                        fontSize: '100px',
+                        position: 'absolute',
+                        left: '280',
+                        top: '220',
+                        display: 'none',
+                        color: 'rgb(163, 0, 4)'
+                    }
+                });
+
+                var deletedCards = document.getElementsByClassName("toDelete");
+
+                for (var i = 0; i < deletedCards.length; i++) {
+                    deletedCards[i].remove();
+                }
+                console.log(deletedCards);
+                for (var _i = 0; _i < deletedCards.length; _i++) {
+                    deletedCards[_i].remove();
+                }
+                for (var _i2 = 0; _i2 < deletedCards.length; _i2++) {
+                    deletedCards[_i2].remove();
+                }
+            };
+
+            _this.getRandomNumber = function (x, y) {
+                return Math.floor(Math.random() * (y - x + 1)) + x;
+            };
+
+            _this.getCardNumber = function () {
+
+                var type = _this.getRandomNumber(0, 1);
                 var figureString = '';
                 var number = 0;
                 if (type == 0) {
-                    number = randomNumber(2, 10);
+                    number = _this.getRandomNumber(2, 10);
                 } else {
-                    number = randomNumber(0, 3);
+                    number = _this.getRandomNumber(0, 3);
                     switch (number) {
                         case 0:
                             number = "J";
@@ -9472,10 +9530,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         case 3:
                             number = "A";
                             break;
-                    };
-                };
+                    }
+                }
+                return number;
+            };
 
-                var color = randomNumber(0, 3);
+            _this.getCard = function () {
+                var color = _this.getRandomNumber(0, 3);
                 var stringColor = '';
 
                 switch (color) {
@@ -9495,14 +9556,37 @@ document.addEventListener('DOMContentLoaded', function () {
                         stringColor = "spd.png";
                         break;
                 };
+                var cardNumber = _this.getCardNumber();
 
-                console.log(number);
-                return number + '-' + stringColor;
+                var getPoints = function getPoints(playerPoints) {
+                    var points = void 0;
+                    if (this.number === 'J' || this.number === 'Q' || this.number === 'K') {
+                        points = 10;
+                    } else if (this.number === 'A') {
+                        if (playerPoints >= 11) {
+                            points = 1;
+                        } else {
+                            points = 11;
+                        }
+                    } else {
+                        points = this.number;
+                    }
+                    console.log('points', points);
+                    return points;
+                };
+
+                var card = {
+                    number: cardNumber,
+                    file: 'Pictures/cards/' + cardNumber + '-' + stringColor,
+                    getPoints: getPoints
+                };
+
+                return card;
             };
 
             _this.chipClicked = function (chip) {
                 _this.setState({
-                    bet: parseInt(_this.state.bet) + parseInt(chip)
+                    bet: _this.state.bet + chip
                 });
             };
 
@@ -9531,249 +9615,100 @@ document.addEventListener('DOMContentLoaded', function () {
                         disabledBtnDouble: '',
                         disabledBtnHold: '',
                         disabledChip: 'disabled',
-                        src: 'Pictures/cards/back.jpg'
+                        src: 'Pictures/cards/back.jpg',
+                        btn1: {
+                            display: ''
+                        },
+                        btn2: {
+                            display: ''
+                        },
+                        btn3: {
+                            display: ''
+                        },
+                        won: {
+                            fontSize: '100px',
+                            position: 'absolute',
+                            left: '280',
+                            top: '220',
+                            display: 'none',
+                            color: '#35FD00'
+                        },
+                        lost: {
+                            fontSize: '100px',
+                            position: 'absolute',
+                            left: '280',
+                            top: '220',
+                            display: 'none',
+                            color: 'rgb(163, 0, 4)'
+                        },
+                        draw: {
+                            fontSize: '100px',
+                            position: 'absolute',
+                            left: '350',
+                            top: '220',
+                            display: 'none',
+                            color: '#FFDA00'
+                        }
+
                     });
                     //ComponentDidMount
 
                     setTimeout(function () {
-                        var string = 'Pictures/cards/' + _self.getCard();
+                        var cardData = _self.getCard();
                         var card = document.createElement("img");
+                        card.className = "toDelete";
                         document.querySelector(".playerFirstCard").append(card);
-                        if (string == _self.state.card2club || string == _self.state.card2dmd || string == _self.state.card2hrt || string == _self.state.card2spd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 2
-                            });
-                        } else if (string == _self.state.card3club || string == _self.state.card3dmd || string == _self.state.card3hrt || string == _self.state.card3spd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 3
-                            });
-                        } else if (string == _self.state.card4club || string == _self.state.card4dmd || string == _self.state.card4hrt || string == _self.state.card4spd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 4
-                            });
-                        } else if (string == _self.state.card5club || string == _self.state.card5dmd || string == _self.state.card5hrt || string == _self.state.card5spd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 5
-                            });
-                        } else if (string == _self.state.card6club || string == _self.state.card6dmd || string == _self.state.card6hrt || string == _self.state.card6spd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 6
-                            });
-                        } else if (string == _self.state.card7club || string == _self.state.card7dmd || string == _self.state.card7hrt || string == _self.state.card7spd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 7
-                            });
-                        } else if (string == _self.state.card8club || string == _self.state.card8dmd || string == _self.state.card8hrt || string == _self.state.card8spd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 8
-                            });
-                        } else if (string == _self.state.card9club || string == _self.state.card9dmd || string == _self.state.card9hrt || string == _self.state.card9spd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 9
-                            });
-                        } else if (string == _self.state.card10club || string == _self.state.card10dmd || string == _self.state.card10hrt || string == _self.state.card10spd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 10
-                            });
-                        } else if (string == _self.state.cardJclub || string == _self.state.cardJdmd || string == _self.state.cardJhrt || string == _self.state.cardJspd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 10
-                            });
-                        } else if (string == _self.state.cardQclub || string == _self.state.cardQdmd || string == _self.state.cardQhrt || string == _self.state.cardQspd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 10
-                            });
-                        } else if (string == _self.state.cardKclub || string == _self.state.cardKdmd || string == _self.state.cardKhrt || string == _self.state.cardKspd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 10
-                            });
-                        } else if (string == _self.state.cardAclub || string == _self.state.cardAdmd || string == _self.state.cardAhrt || string == _self.state.cardAspd) {
-                            if (_self.state.playerPoints >= 11) {
-                                _self.setState({
-                                    playerPoints: _self.state.playerPoints + 1
-                                });
-                            } else {
 
-                                _self.setState({
-                                    playerPoints: _self.state.playerPoints + 11
-                                });
-                            }
-                        };
-                        card.setAttribute('src', string);
-                        card.setAttribute('style', 'height:73px; width: 58px');
+                        _self.setState({
+                            playerPoints: _self.state.playerPoints + cardData.getPoints(_self.state.playerPoints)
+                        });
+                        card.setAttribute('src', cardData.file);
+                        card.setAttribute('style', 'height:73px; width: 58px;');
                     }, 1000);
 
                     setTimeout(function () {
-                        var string = 'Pictures/cards/' + _self.getCard();
+                        var cardData = _self.getCard();
                         var card = document.createElement("img");
+                        card.className = "toDelete";
                         document.querySelector(".dealerSecondCard").append(card);
 
-                        if (string == _self.state.card2club || string == _self.state.card2dmd || string == _self.state.card2hrt || string == _self.state.card2spd) {
-                            _self.setState({
-                                dealerPoints: _self.state.dealerPoints + 2
-                            });
-                        } else if (string == _self.state.card3club || string == _self.state.card3dmd || string == _self.state.card3hrt || string == _self.state.card3spd) {
-                            _self.setState({
-                                dealerPoints: _self.state.dealerPoints + 3
-                            });
-                        } else if (string == _self.state.card4club || string == _self.state.card4dmd || string == _self.state.card4hrt || string == _self.state.card4spd) {
-                            _self.setState({
-                                dealerPoints: _self.state.dealerPoints + 4
-                            });
-                        } else if (string == _self.state.card5club || string == _self.state.card5dmd || string == _self.state.card5hrt || string == _self.state.card5spd) {
-                            _self.setState({
-                                dealerPoints: _self.state.dealerPoints + 5
-                            });
-                        } else if (string == _self.state.card6club || string == _self.state.card6dmd || string == _self.state.card6hrt || string == _self.state.card6spd) {
-                            _self.setState({
-                                dealerPoints: _self.state.dealerPoints + 6
-                            });
-                        } else if (string == _self.state.card7club || string == _self.state.card7dmd || string == _self.state.card7hrt || string == _self.state.card7spd) {
-                            _self.setState({
-                                dealerPoints: _self.state.dealerPoints + 7
-                            });
-                        } else if (string == _self.state.card8club || string == _self.state.card8dmd || string == _self.state.card8hrt || string == _self.state.card8spd) {
-                            _self.setState({
-                                dealerPoints: _self.state.dealerPoints + 8
-                            });
-                        } else if (string == _self.state.card9club || string == _self.state.card9dmd || string == _self.state.card9hrt || string == _self.state.card9spd) {
-                            _self.setState({
-                                dealerPoints: _self.state.dealerPoints + 9
-                            });
-                        } else if (string == _self.state.card10club || string == _self.state.card10dmd || string == _self.state.card10hrt || string == _self.state.card10spd) {
-                            _self.setState({
-                                dealerPoints: _self.state.dealerPoints + 10
-                            });
-                        } else if (string == _self.state.cardJclub || string == _self.state.cardJdmd || string == _self.state.cardJhrt || string == _self.state.cardJspd) {
-                            _self.setState({
-                                dealerPoints: _self.state.dealerPoints + 10
-                            });
-                        } else if (string == _self.state.cardQclub || string == _self.state.cardQdmd || string == _self.state.cardQhrt || string == _self.state.cardQspd) {
-                            _self.setState({
-                                dealerPoints: _self.state.dealerPoints + 10
-                            });
-                        } else if (string == _self.state.cardKclub || string == _self.state.cardKdmd || string == _self.state.cardKhrt || string == _self.state.cardKspd) {
-                            _self.setState({
-                                dealerPoints: _self.state.dealerPoints + 10
-                            });
-                        } else if (string == _self.state.cardAclub || string == _self.state.cardAdmd || string == _self.state.cardAhrt || string == _self.state.cardAspd) {
-                            if (_self.state.playerPoints >= 11) {
-                                _self.setState({
-                                    dealerPoints: _self.state.dealerPoints + 1
-                                });
-                            } else {
+                        _self.setState({
+                            dealerPoints: _self.state.dealerPoints + cardData.getPoints(_self.state.dealerPoints)
+                        });
 
-                                _self.setState({
-                                    dealerPoints: _self.state.dealerPoints + 11
-                                });
-                            }
-                        };
-                        card.setAttribute('src', string);
+                        card.setAttribute('src', cardData.file);
                         card.setAttribute('style', 'height:73px; width: 58px');
                     }, 1500);
 
                     setTimeout(function () {
-                        var string = 'Pictures/cards/' + _self.getCard();
+                        var cardData = _self.getCard();
                         var card = document.createElement("img");
+                        card.className = "toDelete";
                         document.querySelector(".playerSecondCard").append(card);
-                        if (string == _self.state.card2club || string == _self.state.card2dmd || string == _self.state.card2hrt || string == _self.state.card2spd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 2
-                            });
-                        } else if (string == _self.state.card3club || string == _self.state.card3dmd || string == _self.state.card3hrt || string == _self.state.card3spd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 3
-                            });
-                        } else if (string == _self.state.card4club || string == _self.state.card4dmd || string == _self.state.card4hrt || string == _self.state.card4spd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 4
-                            });
-                        } else if (string == _self.state.card5club || string == _self.state.card5dmd || string == _self.state.card5hrt || string == _self.state.card5spd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 5
-                            });
-                        } else if (string == _self.state.card6club || string == _self.state.card6dmd || string == _self.state.card6hrt || string == _self.state.card6spd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 6
-                            });
-                        } else if (string == _self.state.card7club || string == _self.state.card7dmd || string == _self.state.card7hrt || string == _self.state.card7spd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 7
-                            });
-                        } else if (string == _self.state.card8club || string == _self.state.card8dmd || string == _self.state.card8hrt || string == _self.state.card8spd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 8
-                            });
-                        } else if (string == _self.state.card9club || string == _self.state.card9dmd || string == _self.state.card9hrt || string == _self.state.card9spd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 9
-                            });
-                        } else if (string == _self.state.card10club || string == _self.state.card10dmd || string == _self.state.card10hrt || string == _self.state.card10spd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 10
-                            });
-                        } else if (string == _self.state.cardJclub || string == _self.state.cardJdmd || string == _self.state.cardJhrt || string == _self.state.cardJspd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 10
-                            });
-                        } else if (string == _self.state.cardQclub || string == _self.state.cardQdmd || string == _self.state.cardQhrt || string == _self.state.cardQspd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 10
-                            });
-                        } else if (string == _self.state.cardKclub || string == _self.state.cardKdmd || string == _self.state.cardKhrt || string == _self.state.cardKspd) {
-                            _self.setState({
-                                playerPoints: _self.state.playerPoints + 10
-                            });
-                        } else if (string == _self.state.cardAclub || string == _self.state.cardAdmd || string == _self.state.cardAhrt || string == _self.state.cardAspd) {
-                            if (_self.state.playerPoints >= 11) {
-                                _self.setState({
-                                    playerPoints: _self.state.playerPoints + 1
-                                });
-                            } else {
 
-                                _self.setState({
-                                    playerPoints: _self.state.playerPoints + 11
-                                });
-                            }
-                        };
+                        _self.setState({
+                            playerPoints: _self.state.playerPoints + cardData.getPoints(_self.state.playerPoints)
+                        });
+
                         if (_self.state.playerPoints == 21) {
                             console.log("BLACKJACK");
+
                             _self.setState({
-                                disabledBtnHit: 'disabled',
-                                disabledBtnDouble: 'disabled',
-                                disabledBtnHold: 'disabled',
-                                balance: parseInt(_self.state.balance) + parseInt(_self.state.bet * 1.5),
-                                btn1: {
-                                    opacity: '0.25',
-                                    transition: '0.5s'
-                                },
-                                btn2: {
-                                    opacity: '0.25',
-                                    transition: '0.5s'
-                                },
-                                btn3: {
-                                    opacity: '0.25',
-                                    transition: '0.5s'
+                                balance: _self.state.balance + _self.state.bet * 1.5,
+                                won: {
+                                    fontSize: '100px',
+                                    position: 'absolute',
+                                    left: '280',
+                                    top: '220',
+                                    display: '',
+                                    color: '#35FD00'
                                 }
                             });
+                            _self.resetGame();
                         };
-                        card.setAttribute('src', string);
+                        card.setAttribute('src', cardData.file);
                         card.setAttribute('style', 'height:73px; width: 58px');
                     }, 2000);
-
-                    // ComponentDidMount(){
-                    //     this.timer1;
-                    //     this.timer2;
-                    //     this.timer3;
-                    //     this.timer4;
-                    // }
-                    //
-                    // ComponentWillUnmount(){
-                    //     clearTimeout(this.timer1);
-                    //     clearTimeout(this.timer2);
-                    //     clearTimeout(this.timer3);
-                    //     clearTimeout(this.timer4);
-                    // }
                 } else {
 
                     _this.setState({
@@ -9787,663 +9722,150 @@ document.addEventListener('DOMContentLoaded', function () {
             };
 
             _this.holdBtn = function () {
-                if (_this.state.src = "Pictures/cards/back.jpg") {
-                    _this.state.src = 'Pictures/cards/' + _this.getCard();
+                var cardData = _this.getCard();
+                _this.state.src = cardData.file;
+                _this.setState({
+                    disabledBtnHit: 'disabled',
+                    disabledBtnHold: 'disabled',
+                    disabledBtnDouble: 'disabled',
+
+                    btn1: {
+                        display: 'none'
+                    },
+                    btn2: {
+                        display: 'none'
+                    },
+                    btn3: {
+                        display: 'none'
+                    }
+                });
+
+                _this.setState({
+                    dealerPoints: _this.state.dealerPoints + cardData.getPoints(_this.state.dealerPoints)
+                });
+                var addPoints = cardData.getPoints(_this.state.dealerPoints);
+
+                if (_this.state.dealerPoints + addPoints < 17) {
+                    var _cardData = _this.getCard();
+                    var card = document.createElement("img");
+                    card.className = "toDelete";
+                    document.querySelector(".dealerThirdCard").append(card);
+                    card.setAttribute('src', _cardData.file);
+                    card.setAttribute('style', 'height:73px; width: 58px');
+
                     _this.setState({
-                        disabledBtnHit: 'disabled',
-                        disabledBtnHold: 'disabled',
-                        disabledBtnDouble: 'disabled',
-                        btn1: {
-                            opacity: '0.25',
-                            transition: '0.5s'
-                        },
-                        btn2: {
-                            opacity: '0.25',
-                            transition: '0.5s'
-                        },
-                        btn3: {
-                            opacity: '0.25',
-                            transition: '0.5s'
+                        dealerPoints: _this.state.dealerPoints + addPoints + _cardData.getPoints(_this.state.dealerPoints)
+                    });
+                    console.log(_this.state.playerPoints);
+                    _this.resetGame();
+                }
+
+                if (_this.state.dealerPoints + addPoints > _this.state.playerPoints && _this.state.dealerPoints + addPoints < 22) {
+                    _this.setState({
+                        balance: _this.state.balance - _this.state.bet,
+                        lost: {
+                            fontSize: '100px',
+                            position: 'absolute',
+                            left: '280',
+                            top: '220',
+                            display: '',
+                            color: 'rgb(163, 0, 4)'
                         }
                     });
 
-                    // if(string == self.state.card2club || string == self.state.card2dmd || string == self.state.card2hrt || string == self.state.card2spd){
-                    //     self.setState({
-                    //         dealerPoints: self.state.dealerPoints + 2
-                    //     });
-                    // } else if(string == self.state.card3club || string == self.state.card3dmd || string == self.state.card3hrt || string == self.state.card3spd){
-                    //     self.setState({
-                    //         dealerPoints: self.state.dealerPoints + 3
-                    //     });
-                    // } else if(string == self.state.card4club || string == self.state.card4dmd || string == self.state.card4hrt || string == self.state.card4spd){
-                    //     self.setState({
-                    //         dealerPoints: self.state.dealerPoints + 4
-                    //     });
-                    // } else if (string == self.state.card5club || string == self.state.card5dmd || string == self.state.card5hrt || string == self.state.card5spd){
-                    //     self.setState({
-                    //         dealerPoints: self.state.dealerPoints + 5
-                    //     });
-                    // } else if (string == self.state.card6club || string == self.state.card6dmd || string == self.state.card6hrt || string == self.state.card6spd){
-                    //     self.setState({
-                    //         dealerPoints: self.state.dealerPoints + 6
-                    //     });
-                    // } else if (string == self.state.card7club || string == self.state.card7dmd || string == self.state.card7hrt || string == self.state.card7spd){
-                    //     self.setState({
-                    //         dealerPoints: self.state.dealerPoints + 7
-                    //     });
-                    // } else if (string == self.state.card8club || string == self.state.card8dmd || string == self.state.card8hrt || string == self.state.card8spd){
-                    //     self.setState({
-                    //         dealerPoints: self.state.dealerPoints + 8
-                    //     });
-                    // } else if (string == self.state.card9club || string == self.state.card9dmd || string == self.state.card9hrt || string == self.state.card9spd){
-                    //     self.setState({
-                    //         dealerPoints: self.state.dealerPoints + 9
-                    //     });
-                    // } else if (string == self.state.card10club || string == self.state.card10dmd || string == self.state.card10hrt || string == self.state.card10spd){
-                    //     self.setState({
-                    //         dealerPoints: self.state.dealerPoints + 10
-                    //     });
-                    // } else if (string == self.state.cardJclub || string == self.state.cardJdmd || string == self.state.cardJhrt || string == self.state.cardJspd){
-                    //     self.setState({
-                    //         dealerPoints: self.state.dealerPoints + 10
-                    //     });
-                    // } else if (string == self.state.cardQclub || string == self.state.cardQdmd || string == self.state.cardQhrt || string == self.state.cardQspd){
-                    //     self.setState({
-                    //         dealerPoints: self.state.dealerPoints + 10
-                    //     });
-                    // } else if (string == self.state.cardKclub || string == self.state.cardKdmd || string == self.state.cardKhrt || string == self.state.cardKspd){
-                    //     self.setState({
-                    //         dealerPoints: self.state.dealerPoints + 10
-                    //     });
-                    // } else if (string == self.state.cardAclub || string == self.state.cardAdmd || string == self.state.cardAhrt || string == self.state.cardAspd){
-                    //     if(self.state.playerPoints >=11){
-                    //         self.setState({
-                    //             dealerPoints: self.state.dealerPoints + 1
-                    //         })
-                    //     }  else{
-                    //
-                    //     self.setState({
-                    //         dealerPoints: self.state.dealerPoints + 11
-                    //     });
-                    //     }
-                    // };
-
-                    if (_this.state.src == _this.state.card2club || _this.state.src == _this.state.card2dmd || _this.state.src == _this.state.card2hrt || _this.state.src == _this.state.card2spd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 2
-                        });
-                        if (_this.state.dealerPoints + 2 < 17) {
-                            var string = 'Pictures/cards/' + _this.getCard();
-                            var card = document.createElement("img");
-                            card.setAttribute("src", string);
-                            card.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(card);
-
-                            //---------------------------------------------------//
-
-                            _this.setState({
-                                dealerPoints: _this.state.dealerPoints + 2
-                            });
+                    _this.resetGame();
+                } else if (_this.state.dealerPoints + addPoints < _this.state.playerPoints) {
+                    _this.setState({
+                        balance: _this.state.balance + _this.state.bet,
+                        won: {
+                            fontSize: '100px',
+                            position: 'absolute',
+                            left: '280',
+                            top: '220',
+                            display: '',
+                            color: '#35FD00'
                         }
-                    } else if (_this.state.src == _this.state.card3club || _this.state.src == _this.state.card3dmd || _this.state.src == _this.state.card3hrt || _this.state.src == _this.state.card3spd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 3
-                        });
-                        if (_this.state.dealerPoints + 3 < 17) {
-                            var _string = 'Pictures/cards/' + _this.getCard();
-                            var _card = document.createElement("img");
-                            _card.setAttribute("src", _string);
-                            _card.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card);
-                            _this.setState({
-                                dealerPoints: _this.state.dealerPoints + 3
-                            });
+                    });
+                    _this.resetGame();
+                } else if (_this.state.dealerPoints + addPoints == _this.state.playerPoints) {
+                    _this.setState({
+                        draw: {
+                            fontSize: '100px',
+                            position: 'absolute',
+                            left: '350',
+                            top: '220',
+                            display: '',
+                            color: '#FFDA00'
                         }
-                    } else if (_this.state.src == _this.state.card4club || _this.state.src == _this.state.card4dmd || _this.state.src == _this.state.card4hrt || _this.state.src == _this.state.card4spd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 4
-                        });
-                        if (_this.state.dealerPoints + 4 < 17) {
-                            var _string2 = 'Pictures/cards/' + _this.getCard();
-                            var _card2 = document.createElement("img");
-                            _card2.setAttribute("src", _string2);
-                            _card2.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card2);
-                            _this.setState({
-                                dealerPoints: _this.state.dealerPoints + 4
-                            });
-                        }
-                    } else if (_this.state.src == _this.state.card5club || _this.state.src == _this.state.card5dmd || _this.state.src == _this.state.card5hrt || _this.state.src == _this.state.card5spd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 5
-                        });
-                        if (_this.state.dealerPoints + 5 < 17) {
-                            var _string3 = 'Pictures/cards/' + _this.getCard();
-                            var _card3 = document.createElement("img");
-                            _card3.setAttribute("src", _string3);
-                            _card3.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card3);
-                            _this.setState({
-                                dealerPoints: _this.state.dealerPoints + 5
-                            });
-                        }
-                    } else if (_this.state.src == _this.state.card6club || _this.state.src == _this.state.card6dmd || _this.state.src == _this.state.card6hrt || _this.state.src == _this.state.card6spd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 6
-                        });
-                        if (_this.state.dealerPoints + 6 < 17) {
-                            var _string4 = 'Pictures/cards/' + _this.getCard();
-                            var _card4 = document.createElement("img");
-                            _card4.setAttribute("src", _string4);
-                            _card4.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card4);
-                            _this.setState({
-                                dealerPoints: _this.state.dealerPoints + 6
-                            });
-                        }
-                    } else if (_this.state.src == _this.state.card7club || _this.state.src == _this.state.card7dmd || _this.state.src == _this.state.card7hrt || _this.state.src == _this.state.card7spd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 7
-                        });
-                        if (_this.state.dealerPoints + 7 < 17) {
-                            var _string5 = 'Pictures/cards/' + _this.getCard();
-                            var _card5 = document.createElement("img");
-                            _card5.setAttribute("src", _string5);
-                            _card5.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card5);
-                            _this.setState({
-                                dealerPoints: _this.state.dealerPoints + 7
-                            });
-                        }
-                    } else if (_this.state.src == _this.state.card8club || _this.state.src == _this.state.card8dmd || _this.state.src == _this.state.card8hrt || _this.state.src == _this.state.card8spd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 8
-                        });
-                        if (_this.state.dealerPoints + 8 < 17) {
-                            var _string6 = 'Pictures/cards/' + _this.getCard();
-                            var _card6 = document.createElement("img");
-                            _card6.setAttribute("src", _string6);
-                            _card6.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card6);
-                            _this.setState({
-                                dealerPoints: _this.state.dealerPoints + 8
-                            });
-                        }
-                    } else if (_this.state.src == _this.state.card9club || _this.state.src == _this.state.card9dmd || _this.state.src == _this.state.card9hrt || _this.state.src == _this.state.card9spd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 9
-                        });
-                        if (_this.state.dealerPoints + 9 < 17) {
-                            var _string7 = 'Pictures/cards/' + _this.getCard();
-                            var _card7 = document.createElement("img");
-                            _card7.setAttribute("src", _string7);
-                            _card7.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card7);
-                            _this.setState({
-                                dealerPoints: _this.state.dealerPoints + 9
-                            });
-                        }
-                    } else if (_this.state.src == _this.state.card10club || _this.state.src == _this.state.card10dmd || _this.state.src == _this.state.card10hrt || _this.state.src == _this.state.card10spd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 10
-                        });
-                        if (_this.state.dealerPoints + 10 < 17) {
-                            var _string8 = 'Pictures/cards/' + _this.getCard();
-                            var _card8 = document.createElement("img");
-                            _card8.setAttribute("src", _string8);
-                            _card8.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card8);
-                            _this.setState({
-                                dealerPoints: _this.state.dealerPoints + 10
-                            });
-                        }
-                    } else if (_this.state.src == _this.state.cardJclub || _this.state.src == _this.state.cardJdmd || _this.state.src == _this.state.cardJhrt || _this.state.src == _this.state.cardJspd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 10
-                        });
-                        if (_this.state.dealerPoints + 10 < 17) {
-                            var _string9 = 'Pictures/cards/' + _this.getCard();
-                            var _card9 = document.createElement("img");
-                            _card9.setAttribute("src", _string9);
-                            _card9.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card9);
-                            _this.setState({
-                                dealerPoints: _this.state.dealerPoints + 10
-                            });
-                        }
-                    } else if (_this.state.src == _this.state.cardQclub || _this.state.src == _this.state.cardQdmd || _this.state.src == _this.state.cardQhrt || _this.state.src == _this.state.cardQspd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 10
-                        });
-                        if (_this.state.dealerPoints + 10 < 17) {
-                            var _string10 = 'Pictures/cards/' + _this.getCard();
-                            var _card10 = document.createElement("img");
-                            _card10.setAttribute("src", _string10);
-                            _card10.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card10);
-                            _this.setState({
-                                dealerPoints: _this.state.dealerPoints + 10
-                            });
-                        }
-                    } else if (_this.state.src == _this.state.cardKclub || _this.state.src == _this.state.cardKdmd || _this.state.src == _this.state.cardKhrt || _this.state.src == _this.state.cardKspd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 10
-                        });
-                        if (_this.state.dealerPoints + 10 < 17) {
-                            var _string11 = 'Pictures/cards/' + _this.getCard();
-                            var _card11 = document.createElement("img");
-                            _card11.setAttribute("src", _string11);
-                            _card11.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card11);
-                            _this.setState({
-                                dealerPoints: _this.state.dealerPoints + 10
-                            });
-                        }
-                    } else if (_this.state.src == _this.state.cardAclub || _this.state.src == _this.state.cardAdmd || _this.state.src == _this.state.cardAhrt || _this.state.src == _this.state.cardAspd) {
-                        if (_this.state.dealerPoints + 11 >= 11) {
-                            _this.setState({
-                                dealerPoints: _this.state.dealerPoints + 1
-                            });
-                            if (_this.state.dealerPoints + 1 < 17) {
-                                var _string12 = 'Pictures/cards/' + _this.getCard();
-                                var _card12 = document.createElement("img");
-                                _card12.setAttribute("src", _string12);
-                                _card12.setAttribute('style', 'height:73px; width: 58px');
-                                document.querySelector(".dealerThirdCard").append(_card12);
-                                _this.setState({
-                                    dealerPoints: _this.state.dealerPoints + 1
-                                });
-                            }
-                        } else {
-                            _this.setState({
-                                dealerPoints: _this.state.dealerPoints + 11
-                            });
-                            if (_this.state.dealerPoints < 17) {
-                                var _string13 = 'Pictures/cards/' + _this.getCard();
-                                var _card13 = document.createElement("img");
-                                _card13.setAttribute("src", _string13);
-                                _card13.setAttribute('style', 'height:73px; width: 58px');
-                                document.querySelector(".dealerThirdCard").append(_card13);
-                                _this.setState({
-                                    dealerPoints: _this.state.dealerPoints + 11
-                                });
-                            }
-                        }
-                    };
+                    });
+                    _this.resetGame();
                 }
             };
 
             _this.doubleBtn = function () {
-
                 if (_this.state.balance / 2 >= _this.state.bet) {
-                    _this.state.src = 'Pictures/cards/' + _this.getCard();
+                    var cardData = _this.getCard();
+                    _this.state.src = cardData.file;
+                    var cardPoints = cardData.getPoints(_this.state.dealerPoints);
                     _this.setState({
-                        bet: _this.state.bet * 2,
-                        btn1: {
-                            opacity: '0.25',
-                            transition: '0.5s'
-                        },
-                        btn2: {
-                            opacity: '0.25',
-                            transition: '0.5s'
-                        },
-                        btn3: {
-                            opacity: '0.25',
-                            transition: '0.5s'
-                        },
-                        disabledBtnHit: 'disabled',
-                        disabledBtnHold: 'disabled',
-                        disabledBtnDouble: 'disabled'
+                        dealerPoints: _this.state.dealerPoints + cardPoints
                     });
 
-                    if (_this.state.src == _this.state.card2club || _this.state.src == _this.state.card2dmd || _this.state.src == _this.state.card2hrt || _this.state.src == _this.state.card2spd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 2
-                        });
-                        if (_this.state.dealerPoints + 2 < 17) {
-                            var _string14 = 'Pictures/cards/' + _this.getCard();
-                            var _card14 = document.createElement("img");
-                            _card14.setAttribute("src", _string14);
-                            _card14.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card14);
-                        };
-                    } else if (_this.state.src == _this.state.card3club || _this.state.src == _this.state.card3dmd || _this.state.src == _this.state.card3hrt || _this.state.src == _this.state.card3spd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 3
-                        });
-                        if (_this.state.dealerPoints + 3 < 17) {
-                            var _string15 = 'Pictures/cards/' + _this.getCard();
-                            var _card15 = document.createElement("img");
-                            _card15.setAttribute("src", _string15);
-                            _card15.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card15);
-                        };
-                    } else if (_this.state.src == _this.state.card4club || _this.state.src == _this.state.card4dmd || _this.state.src == _this.state.card4hrt || _this.state.src == _this.state.card4spd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 4
-                        });
-                        if (_this.state.dealerPoints + 4 < 17) {
-                            var _string16 = 'Pictures/cards/' + _this.getCard();
-                            var _card16 = document.createElement("img");
-                            _card16.setAttribute("src", _string16);
-                            _card16.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card16);
-                        };
-                    } else if (_this.state.src == _this.state.card5club || _this.state.src == _this.state.card5dmd || _this.state.src == _this.state.card5hrt || _this.state.src == _this.state.card5spd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 5
-                        });
-                        if (_this.state.dealerPoints + 5 < 17) {
-                            var _string17 = 'Pictures/cards/' + _this.getCard();
-                            var _card17 = document.createElement("img");
-                            _card17.setAttribute("src", _string17);
-                            _card17.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card17);
-                        };
-                    } else if (_this.state.src == _this.state.card6club || _this.state.src == _this.state.card6dmd || _this.state.src == _this.state.card6hrt || _this.state.src == _this.state.card6spd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 6
-                        });
-                        if (_this.state.dealerPoints + 6 < 17) {
-                            var _string18 = 'Pictures/cards/' + _this.getCard();
-                            var _card18 = document.createElement("img");
-                            _card18.setAttribute("src", _string18);
-                            _card18.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card18);
-                        };
-                    } else if (_this.state.src == _this.state.card7club || _this.state.src == _this.state.card7dmd || _this.state.src == _this.state.card7hrt || _this.state.src == _this.state.card7spd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 7
-                        });
-                        if (_this.state.dealerPoints + 7 < 17) {
-                            var _string19 = 'Pictures/cards/' + _this.getCard();
-                            var _card19 = document.createElement("img");
-                            _card19.setAttribute("src", _string19);
-                            _card19.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card19);
-                        };
-                    } else if (_this.state.src == _this.state.card8club || _this.state.src == _this.state.card8dmd || _this.state.src == _this.state.card8hrt || _this.state.src == _this.state.card8spd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 8
-                        });
-                        if (_this.state.dealerPoints + 8 < 17) {
-                            var _string20 = 'Pictures/cards/' + _this.getCard();
-                            var _card20 = document.createElement("img");
-                            _card20.setAttribute("src", _string20);
-                            _card20.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card20);
-                        };
-                    } else if (_this.state.src == _this.state.card9club || _this.state.src == _this.state.card9dmd || _this.state.src == _this.state.card9hrt || _this.state.src == _this.state.card9spd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 9
-                        });
-                        if (_this.state.dealerPoints + 9 < 17) {
-                            var _string21 = 'Pictures/cards/' + _this.getCard();
-                            var _card21 = document.createElement("img");
-                            _card21.setAttribute("src", _string21);
-                            _card21.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card21);
-                        };
-                    } else if (_this.state.src == _this.state.card10club || _this.state.src == _this.state.card10dmd || _this.state.src == _this.state.card10hrt || _this.state.src == _this.state.card10spd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 10
-                        });
-                        if (_this.state.dealerPoints + 10 < 17) {
-                            var _string22 = 'Pictures/cards/' + _this.getCard();
-                            var _card22 = document.createElement("img");
-                            _card22.setAttribute("src", _string22);
-                            _card22.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card22);
-                        };
-                    } else if (_this.state.src == _this.state.cardJclub || _this.state.src == _this.state.cardJdmd || _this.state.src == _this.state.cardJhrt || _this.state.src == _this.state.cardJspd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 10
-                        });
-                        if (_this.state.dealerPoints + 10 < 17) {
-                            var _string23 = 'Pictures/cards/' + _this.getCard();
-                            var _card23 = document.createElement("img");
-                            _card23.setAttribute("src", _string23);
-                            _card23.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card23);
-                        };
-                    } else if (_this.state.src == _this.state.cardQclub || _this.state.src == _this.state.cardQdmd || _this.state.src == _this.state.cardQhrt || _this.state.src == _this.state.cardQspd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 10
-                        });
-                        if (_this.state.dealerPoints + 10 < 17) {
-                            var _string24 = 'Pictures/cards/' + _this.getCard();
-                            var _card24 = document.createElement("img");
-                            _card24.setAttribute("src", _string24);
-                            _card24.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card24);
-                        };
-                    } else if (_this.state.src == _this.state.cardKclub || _this.state.src == _this.state.cardKdmd || _this.state.src == _this.state.cardKhrt || _this.state.src == _this.state.cardKspd) {
-                        _this.setState({
-                            dealerPoints: _this.state.dealerPoints + 10
-                        });
-                        if (_this.state.dealerPoints + 10 < 17) {
-                            var _string25 = 'Pictures/cards/' + _this.getCard();
-                            var _card25 = document.createElement("img");
-                            _card25.setAttribute("src", _string25);
-                            _card25.setAttribute('style', 'height:73px; width: 58px');
-                            document.querySelector(".dealerThirdCard").append(_card25);
-                        };
-                    } else if (_this.state.src == _this.state.cardAclub || _this.state.src == _this.state.cardAdmd || _this.state.src == _this.state.cardAhrt || _this.state.src == _this.state.cardAspd) {
-                        if (_this.state.dealerPoints >= 11) {
-                            _this.setState({
-                                dealerPoints: _this.state.dealerPoints + 1
-                            });
-                            if (_this.state.dealerPoints + 1 < 17) {
-                                var _string26 = 'Pictures/cards/' + _this.getCard();
-                                var _card26 = document.createElement("img");
-                                _card26.setAttribute("src", _string26);
-                                _card26.setAttribute('style', 'height:73px; width: 58px');
-                                document.querySelector(".dealerThirdCard").append(_card26);
-                            };
-                        } else {
+                    _this.setState({
+                        bet: _this.state.bet * 2
+                    });
 
-                            _this.setState({
-                                dealerPoints: _this.state.dealerPoints + 11
-                            });
-                            if (_this.state.dealerPoints + 2 < 17) {
-                                var _string27 = 'Pictures/cards/' + _this.getCard();
-                                var _card27 = document.createElement("img");
-                                _card27.setAttribute("src", _string27);
-                                _card27.setAttribute('style', 'height:73px; width: 58px');
-                                document.querySelector(".dealerThirdCard").append(_card27);
-                            };
-                        };
-                    }
-
-                    // let string = 'Pictures/cards/'+this.getCard();
-                    // let card = document.createElement("img");
-                    // document.querySelector(".dealerFirstCard").append(card);
-                    // // const imgd = <img src={string} style={height:'73px', width: '58px'};
-                    // card.setAttribute('src', string);
-                    // card.setAttribute('style', 'height:73px; width: 58px');
-
-                    var string = 'Pictures/cards/' + _this.getCard();
-                    var card = document.createElement("img");
-                    document.querySelector(".player3Card").append(card);
-                    if (string == _this.state.card2club || string == _this.state.card2dmd || string == _this.state.card2hrt || string == _this.state.card2spd) {
+                    if (_this.state.dealerPoints + cardPoints < 17) {
+                        var thirdCardData = _this.getCard();
+                        var thirdCard = document.createElement("img");
+                        thirdCard.className = "toDelete";
+                        document.querySelector(".dealerThirdCard").append(thirdCard);
+                        thirdCard.setAttribute('src', thirdCardData.file);
+                        thirdCard.setAttribute('style', 'height:73px; width: 58px');
+                        var thirdCardPoints = thirdCardData.getPoints(_this.state.dealerPoints + cardPoints);
                         _this.setState({
-                            playerPoints: _this.state.playerPoints + 2
+                            dealerPoints: _this.state.dealerPoints + cardPoints + thirdCardPoints
                         });
-                        if (_this.state.playerPoints + 2 > 21) {
-                            console.log("przegrywasz");
-                            _this.setState({
-                                disabledBtnHit: 'disabled',
-                                disabledBtnHold: 'disabled',
-                                disabledBtnDouble: 'disabled',
-                                balance: _this.state.balance - _this.state.bet * 2
-                            });
-                        }
-                    } else if (string == _this.state.card3club || string == _this.state.card3dmd || string == _this.state.card3hrt || string == _this.state.card3spd) {
-                        _this.setState({
-                            playerPoints: _this.state.playerPoints + 3
-                        });
-                        if (_this.state.playerPoints + 3 > 21) {
-                            console.log("przegrywasz");
-                            _this.setState({
-                                disabledBtnHit: 'disabled',
-                                disabledBtnHold: 'disabled',
-                                disabledBtnDouble: 'disabled',
-                                balance: _this.state.balance - _this.state.bet * 2
-                            });
-                        }
-                    } else if (string == _this.state.card4club || string == _this.state.card4dmd || string == _this.state.card4hrt || string == _this.state.card4spd) {
-                        _this.setState({
-                            playerPoints: _this.state.playerPoints + 4
-                        });
-                        if (_this.state.playerPoints + 4 > 21) {
-                            console.log("przegrywasz");
-                            _this.setState({
-                                disabledBtnHit: 'disabled',
-                                disabledBtnHold: 'disabled',
-                                disabledBtnDouble: 'disabled',
-                                balance: _this.state.balance - _this.state.bet * 2
-                            });
-                        }
-                    } else if (string == _this.state.card5club || string == _this.state.card5dmd || string == _this.state.card5hrt || string == _this.state.card5spd) {
-                        _this.setState({
-                            playerPoints: _this.state.playerPoints + 5
-                        });
-                        if (_this.state.playerPoints + 5 > 21) {
-                            console.log("przegrywasz");
-                            _this.setState({
-                                disabledBtnHit: 'disabled',
-                                disabledBtnHold: 'disabled',
-                                disabledBtnDouble: 'disabled',
-                                balance: _this.state.balance - _this.state.bet * 2
-                            });
-                        }
-                    } else if (string == _this.state.card6club || string == _this.state.card6dmd || string == _this.state.card6hrt || string == _this.state.card6spd) {
-                        _this.setState({
-                            playerPoints: _this.state.playerPoints + 6
-                        });
-                        if (_this.state.playerPoints + 6 > 21) {
-                            console.log("przegrywasz");
-                            _this.setState({
-                                disabledBtnHit: 'disabled',
-                                disabledBtnHold: 'disabled',
-                                disabledBtnDouble: 'disabled',
-                                balance: _this.state.balance - _this.state.bet * 2
-                            });
-                        }
-                    } else if (string == _this.state.card7club || string == _this.state.card7dmd || string == _this.state.card7hrt || string == _this.state.card7spd) {
-                        _this.setState({
-                            playerPoints: _this.state.playerPoints + 7
-                        });
-                        if (_this.state.playerPoints + 7 > 21) {
-                            console.log("przegrywasz");
-                            _this.setState({
-                                disabledBtnHit: 'disabled',
-                                disabledBtnHold: 'disabled',
-                                disabledBtnDouble: 'disabled',
-                                balance: _this.state.balance - _this.state.bet * 2
-                            });
-                        }
-                    } else if (string == _this.state.card8club || string == _this.state.card8dmd || string == _this.state.card8hrt || string == _this.state.card8spd) {
-                        _this.setState({
-                            playerPoints: _this.state.playerPoints + 8
-                        });
-                        if (_this.state.playerPoints + 8 > 21) {
-                            console.log("przegrywasz");
-                            _this.setState({
-                                disabledBtnHit: 'disabled',
-                                disabledBtnHold: 'disabled',
-                                disabledBtnDouble: 'disabled',
-                                balance: _this.state.balance - _this.state.bet * 2
-                            });
-                        }
-                    } else if (string == _this.state.card9club || string == _this.state.card9dmd || string == _this.state.card9hrt || string == _this.state.card9spd) {
-                        _this.setState({
-                            playerPoints: _this.state.playerPoints + 9
-                        });
-                        if (_this.state.playerPoints + 9 > 21) {
-                            console.log("przegrywasz");
-                            _this.setState({
-                                disabledBtnHit: 'disabled',
-                                disabledBtnHold: 'disabled',
-                                disabledBtnDouble: 'disabled',
-                                balance: _this.state.balance - _this.state.bet * 2
-                            });
-                        }
-                    } else if (string == _this.state.card10club || string == _this.state.card10dmd || string == _this.state.card10hrt || string == _this.state.card10spd) {
-                        _this.setState({
-                            playerPoints: _this.state.playerPoints + 10
-                        });
-                        if (_this.state.playerPoints + 10 > 21) {
-                            console.log("przegrywasz");
-                            _this.setState({
-                                disabledBtnHit: 'disabled',
-                                disabledBtnHold: 'disabled',
-                                disabledBtnDouble: 'disabled',
-                                balance: _this.state.balance - _this.state.bet * 2
-                            });
-                        }
-                    } else if (string == _this.state.cardJclub || string == _this.state.cardJdmd || string == _this.state.cardJhrt || string == _this.state.cardJspd) {
-                        _this.setState({
-                            playerPoints: _this.state.playerPoints + 10
-                        });
-                        if (_this.state.playerPoints + 10 > 21) {
-                            console.log("przegrywasz");
-                            _this.setState({
-                                disabledBtnHit: 'disabled',
-                                disabledBtnHold: 'disabled',
-                                disabledBtnDouble: 'disabled',
-                                balance: _this.state.balance - _this.state.bet * 2
-                            });
-                        }
-                    } else if (string == _this.state.cardQclub || string == _this.state.cardQdmd || string == _this.state.cardQhrt || string == _this.state.cardQspd) {
-                        _this.setState({
-                            playerPoints: _this.state.playerPoints + 10
-                        });
-                        if (_this.state.playerPoints + 10 > 21) {
-                            console.log("przegrywasz");
-                            _this.setState({
-                                disabledBtnHit: 'disabled',
-                                disabledBtnHold: 'disabled',
-                                disabledBtnDouble: 'disabled',
-                                balance: _this.state.balance - _this.state.bet * 2
-                            });
-                        }
-                    } else if (string == _this.state.cardKclub || string == _this.state.cardKdmd || string == _this.state.cardKhrt || string == _this.state.cardKspd) {
-                        _this.setState({
-                            playerPoints: _this.state.playerPoints + 10
-                        });
-                        if (_this.state.playerPoints + 10 > 21) {
-                            console.log("przegrywasz");
-                            _this.setState({
-                                disabledBtnHit: 'disabled',
-                                disabledBtnHold: 'disabled',
-                                disabledBtnDouble: 'disabled',
-                                balance: _this.state.balance - _this.state.bet * 2
-                            });
-                        }
-                    } else if (string == _this.state.cardAclub || string == _this.state.cardAdmd || string == _this.state.cardAhrt || string == _this.state.cardAspd) {
-                        if (_this.state.playerPoints >= 11) {
-                            _this.setState({
-                                playerPoints: _this.state.playerPoints + 1
-                            });
-                            if (_this.state.playerPoints + 1 > 21) {
-                                console.log("przegrywasz");
-                                _this.setState({
-                                    disabledBtnHit: 'disabled',
-                                    disabledBtnHold: 'disabled',
-                                    disabledBtnDouble: 'disabled',
-                                    balance: _this.state.balance - _this.state.bet * 2
-                                });
-                            }
-                        } else {
-                            _this.setState({
-                                playerPoints: _this.state.playerPoints + 11
-                            });
-                        }
                     };
 
-                    card.setAttribute('src', string);
-                    card.setAttribute('style', 'height:73px; width: 58px');
+                    var thirdPlayerCardData = _this.getCard();
+                    var thirdPlayerCard = document.createElement("img");
+                    thirdPlayerCard.className = "toDelete";
+                    var thirdPlayerCardPoints = thirdPlayerCardData.getPoints(_this.state.playerPoints);
+                    document.querySelector(".player3Card").append(thirdPlayerCard);
+                    thirdPlayerCard.setAttribute('src', thirdPlayerCardData.file);
+                    thirdPlayerCard.setAttribute('style', 'height:73px; width: 58px');
+                    _this.setState({
+                        playerPoints: _this.state.playerPoints + thirdPlayerCardPoints
+                    });
+
+                    if (_this.state.playerPoints + thirdPlayerCardPoints > 21) {
+                        _this.setState({
+                            balance: _this.state.balance - _this.state.bet * 2,
+                            lost: {
+                                fontSize: '100px',
+                                position: 'absolute',
+                                left: '280',
+                                top: '220',
+                                display: '',
+                                color: 'rgb(163, 0, 4)'
+                            }
+                        });
+                        _this.resetGame();
+                    } else if (_this.state.playerPoints + thirdPlayerCardPoints < 22 && _this.state.playerPoints + thirdPlayerCardPoints > _this.state.dealerPoints) {
+                        _this.setState({
+                            balance: _this.state.balance + _this.state.bet * 2,
+                            won: {
+                                fontSize: '100px',
+                                position: 'absolute',
+                                left: '280',
+                                top: '220',
+                                display: '',
+                                color: '#35FD00'
+                            }
+                        });
+                        _this.resetGame();
+                    }
                 } else {
                     _this.setState({
                         styles: {
@@ -10459,235 +9881,73 @@ document.addEventListener('DOMContentLoaded', function () {
                 _this.setState({
                     disabledBtnDouble: 'disabled'
                 });
-                //const rand = this.getCard();
                 var counter = 3;
-                var string = 'Pictures/cards/' + _this.getCard();
+                var cardData = _this.getCard();
                 var card = document.createElement("img");
+                card.className = "toDelete";
                 document.querySelector(".player" + counter + "Card").append(card);
+                var cardPoints = cardData.getPoints(_this.state.playerPoints);
 
-                if (string == _this.state.card2club || string == _this.state.card2dmd || string == _this.state.card2hrt || string == _this.state.card2spd) {
-                    _this.setState({
-                        playerPoints: _this.state.playerPoints + 2
-                    });
-                    if (_this.state.playerPoints + 2 > 21) {
-                        console.log("przegrywasz");
-                        _this.setState({
-                            disabledBtnHit: 'disabled',
-                            disabledBtnHold: 'disabled',
-                            disabledBtnDouble: 'disabled',
-                            balance: _this.state.balance - _this.state.bet
-                        });
-                    }
-                } else if (string == _this.state.card3club || string == _this.state.card3dmd || string == _this.state.card3hrt || string == _this.state.card3spd) {
-                    _this.setState({
-                        playerPoints: _this.state.playerPoints + 3
-                    });
-                    if (_this.state.playerPoints + 3 > 21) {
-                        console.log("przegrywasz");
-                        _this.setState({
-                            disabledBtnHit: 'disabled',
-                            disabledBtnHold: 'disabled',
-                            disabledBtnDouble: 'disabled',
-                            balance: _this.state.balance - _this.state.bet
-                        });
-                    }
-                } else if (string == _this.state.card4club || string == _this.state.card4dmd || string == _this.state.card4hrt || string == _this.state.card4spd) {
-                    _this.setState({
-                        playerPoints: _this.state.playerPoints + 4
-                    });
-                    if (_this.state.playerPoints + 4 > 21) {
-                        console.log("przegrywasz");
-                        _this.setState({
-                            disabledBtnHit: 'disabled',
-                            disabledBtnHold: 'disabled',
-                            disabledBtnDouble: 'disabled',
-                            balance: _this.state.balance - _this.state.bet
-                        });
-                    }
-                } else if (string == _this.state.card5club || string == _this.state.card5dmd || string == _this.state.card5hrt || string == _this.state.card5spd) {
-                    _this.setState({
-                        playerPoints: _this.state.playerPoints + 5
-                    });
-                    if (_this.state.playerPoints + 5 > 21) {
-                        console.log("przegrywasz");
-                        _this.setState({
-                            disabledBtnHit: 'disabled',
-                            disabledBtnHold: 'disabled',
-                            disabledBtnDouble: 'disabled',
-                            balance: _this.state.balance - _this.state.bet
-                        });
-                    }
-                } else if (string == _this.state.card6club || string == _this.state.card6dmd || string == _this.state.card6hrt || string == _this.state.card6spd) {
-                    _this.setState({
-                        playerPoints: _this.state.playerPoints + 6
-                    });
-                    if (_this.state.playerPoints + 6 > 21) {
-                        console.log("przegrywasz");
-                        _this.setState({
-                            disabledBtnHit: 'disabled',
-                            disabledBtnHold: 'disabled',
-                            disabledBtnDouble: 'disabled',
-                            balance: _this.state.balance - _this.state.bet
-                        });
-                    }
-                } else if (string == _this.state.card7club || string == _this.state.card7dmd || string == _this.state.card7hrt || string == _this.state.card7spd) {
-                    _this.setState({
-                        playerPoints: _this.state.playerPoints + 7
-                    });
-                    if (_this.state.playerPoints + 7 > 21) {
-                        console.log("przegrywasz");
-                        _this.setState({
-                            disabledBtnHit: 'disabled',
-                            disabledBtnHold: 'disabled',
-                            disabledBtnDouble: 'disabled',
-                            balance: _this.state.balance - _this.state.bet
-                        });
-                    }
-                } else if (string == _this.state.card8club || string == _this.state.card8dmd || string == _this.state.card8hrt || string == _this.state.card8spd) {
-                    _this.setState({
-                        playerPoints: _this.state.playerPoints + 8
-                    });
-                    if (_this.state.playerPoints + 8 > 21) {
-                        console.log("przegrywasz");
-                        _this.setState({
-                            disabledBtnHit: 'disabled',
-                            disabledBtnHold: 'disabled',
-                            disabledBtnDouble: 'disabled',
-                            balance: _this.state.balance - _this.state.bet
-                        });
-                    }
-                } else if (string == _this.state.card9club || string == _this.state.card9dmd || string == _this.state.card9hrt || string == _this.state.card9spd) {
-                    _this.setState({
-                        playerPoints: _this.state.playerPoints + 9
-                    });
-                    if (_this.state.playerPoints + 9 > 21) {
-                        console.log("przegrywasz");
-                        _this.setState({
-                            disabledBtnHit: 'disabled',
-                            disabledBtnHold: 'disabled',
-                            disabledBtnDouble: 'disabled',
-                            balance: _this.state.balance - _this.state.bet
-                        });
-                    }
-                } else if (string == _this.state.card10club || string == _this.state.card10dmd || string == _this.state.card10hrt || string == _this.state.card10spd) {
-                    _this.setState({
-                        playerPoints: _this.state.playerPoints + 10
-                    });
-                    if (_this.state.playerPoints + 10 > 21) {
-                        console.log("przegrywasz");
-                        _this.setState({
-                            disabledBtnHit: 'disabled',
-                            disabledBtnHold: 'disabled',
-                            disabledBtnDouble: 'disabled',
-                            balance: _this.state.balance - _this.state.bet
-                        });
-                    }
-                } else if (string == _this.state.cardJclub || string == _this.state.cardJdmd || string == _this.state.cardJhrt || string == _this.state.cardJspd) {
-                    _this.setState({
-                        playerPoints: _this.state.playerPoints + 10
-                    });
-                    if (_this.state.playerPoints + 10 > 21) {
-                        console.log("przegrywasz");
-                        _this.setState({
-                            disabledBtnHit: 'disabled',
-                            disabledBtnHold: 'disabled',
-                            disabledBtnDouble: 'disabled',
-                            balance: _this.state.balance - _this.state.bet
-                        });
-                    }
-                } else if (string == _this.state.cardQclub || string == _this.state.cardQdmd || string == _this.state.cardQhrt || string == _this.state.cardQspd) {
-                    _this.setState({
-                        playerPoints: _this.state.playerPoints + 10
-                    });
-                    if (_this.state.playerPoints + 10 > 21) {
-                        console.log("przegrywasz");
-                        _this.setState({
-                            disabledBtnHit: 'disabled',
-                            disabledBtnHold: 'disabled',
-                            disabledBtnDouble: 'disabled',
-                            balance: _this.state.balance - _this.state.bet
-                        });
-                    }
-                } else if (string == _this.state.cardKclub || string == _this.state.cardKdmd || string == _this.state.cardKhrt || string == _this.state.cardKspd) {
-                    _this.setState({
-                        playerPoints: _this.state.playerPoints + 10
-                    });
-                    if (_this.state.playerPoints + 10 > 21) {
-                        console.log("przegrywasz");
-                        _this.setState({
-                            disabledBtnHit: 'disabled',
-                            disabledBtnHold: 'disabled',
-                            disabledBtnDouble: 'disabled',
-                            balance: _this.state.balance - _this.state.bet
-                        });
-                    }
-                } else if (string == _this.state.cardAclub || string == _this.state.cardAdmd || string == _this.state.cardAhrt || string == _this.state.cardAspd) {
-                    if (_this.state.playerPoints >= 11) {
-                        _this.setState({
-                            playerPoints: _this.state.playerPoints + 1
-                        });
-                        if (_this.state.playerPoints + 1 > 21) {
-                            console.log("przegrywasz");
-                            _this.setState({
-                                disabledBtnHit: 'disabled',
-                                disabledBtnHold: 'disabled',
-                                disabledBtnDouble: 'disabled',
-                                balance: _this.state.balance - _this.state.bet
-                            });
-                        }
-                    } else {
+                _this.setState({
+                    playerPoints: _this.state.playerPoints + cardPoints
+                });
 
-                        _this.setState({
-                            playerPoints: _this.state.playerPoints + 11
-                        });
-                        if (_this.state.playerPoints + 11 > 21) {
-                            console.log("przegrywasz");
-                            _this.setState({
-                                disabledBtnHit: 'disabled',
-                                disabledBtnHold: 'disabled',
-                                disabledBtnDouble: 'disabled',
-                                balance: _this.state.balance - _this.state.bet
-                            });
-                        }
-                    };
-                };
-
-                _this.setState({});
-                if (_this.state.playerPoints == 21) {
-                    console.log("Perfect!!");
-                    self.setState({
+                if (_this.state.playerPoints + cardPoints > 21) {
+                    console.log("przegrywasz");
+                    _this.setState({
                         disabledBtnHit: 'disabled',
-                        disabledBtnDouble: 'disabled',
                         disabledBtnHold: 'disabled',
-                        btn1: {
-                            opacity: '0.25',
-                            transition: '0.5s'
-                        },
-                        btn2: {
-                            opacity: '0.25',
-                            transition: '0.5s'
-                        },
-                        btn3: {
-                            opacity: '0.25',
-                            transition: '0.5s'
+                        disabledBtnDouble: 'disabled',
+                        balance: _this.state.balance - _this.state.bet,
+                        lost: {
+                            fontSize: '100px',
+                            position: 'absolute',
+                            left: '280',
+                            top: '220',
+                            display: '',
+                            color: 'rgb(163, 0, 4)'
                         }
                     });
+                    _this.resetGame();
+                } else if (_this.state.playerPoints == 21) {
+                    //dodaj karty dealera
+                    self.setState({
+                        balance: _this.state.balance + _this.state.bet,
+                        won: {
+                            fontSize: '100px',
+                            position: 'absolute',
+                            left: '280',
+                            top: '220',
+                            display: '',
+                            color: '#35FD00'
+                        }
+                    });
+                    _this.resetGame();
                 }
 
-                card.setAttribute('src', string);
+                card.setAttribute('src', cardData.file);
                 card.setAttribute('style', 'height:73px; width: 58px');
                 counter++;
             };
 
             _this.state = {
-                balance: '2000',
-                bet: '0',
+                balance: 2000,
+                bet: 0,
                 src: '',
-                add5: '5',
-                add25: '25',
-                add100: '100',
-                add500: '500',
-                add5k: '5000',
+                add5: 5,
+                add25: 25,
+                add100: 100,
+                add500: 500,
+                add5k: 5000,
+                btn1: {
+                    display: 'none'
+                },
+                btn2: {
+                    display: 'none'
+                },
+                btn3: {
+                    display: 'none'
+                },
                 showdecBtns: 'false',
                 disabledBtnHit: 'disabled',
                 disabledBtnDouble: 'disabled',
@@ -10699,6 +9959,31 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 dealerPoints: 0,
                 playerPoints: 0,
+
+                won: {
+                    fontSize: '100px',
+                    position: 'absolute',
+                    left: '280',
+                    top: '220',
+                    display: 'none',
+                    color: '#35FD00'
+                },
+                lost: {
+                    fontSize: '100px',
+                    position: 'absolute',
+                    left: '280',
+                    top: '220',
+                    display: 'none',
+                    color: 'rgb(163, 0, 4)'
+                },
+                draw: {
+                    fontSize: '100px',
+                    position: 'absolute',
+                    left: '350',
+                    top: '220',
+                    display: 'none',
+                    color: '#FFDA00'
+                },
 
                 card2club: "Pictures/cards/2-club.png",
                 card2dmd: "Pictures/cards/2-dmd.png",
@@ -10768,28 +10053,52 @@ document.addEventListener('DOMContentLoaded', function () {
             return _this;
         }
 
-        // restartGame = (event) => {
-        //     116 ASCII = f5
-        // }
-
-        // class TestComp extends React.Component {
-        //     constructor(props){
-        //         super(props);
-        //         this.state ={
-        //                 doubleoff:{
-        //                     opacity:'0.25',
-        //                     transition:'0.5s',
-        //                 }
-        //         }
-        //     }
-        //     render(){
-        //         return <button className='decBtn2' style={{this.state.doubleoff}}>DOUBLE</button>;
-        //
-        //     }
-        // };
-
-
         _createClass(MainContent, [{
+            key: 'resetGame',
+            value: function resetGame() {
+
+                this.setState({
+                    bet: 0,
+                    src: '',
+                    showdecBtns: 'false',
+                    disabledBtnHit: 'disabled',
+                    disabledBtnDouble: 'disabled',
+                    disabledBtnHold: 'disabled',
+                    disabledChip: '',
+                    cardStyle: {
+                        height: "73px",
+                        width: "58px"
+                    },
+                    dealerPoints: 0,
+                    playerPoints: 0,
+                    btn1: {
+                        display: 'none'
+                    },
+                    btn2: {
+                        display: 'none'
+                    },
+                    btn3: {
+                        display: 'none'
+                    }
+                });
+                setTimeout(function () {
+
+                    var deletedCards = document.getElementsByClassName("toDelete");
+                    console.log(deletedCards);
+
+                    for (var i = 0; i < deletedCards.length; i++) {
+                        deletedCards[i].remove();
+                    }
+                    console.log(deletedCards);
+                    for (var _i3 = 0; _i3 < deletedCards.length; _i3++) {
+                        deletedCards[_i3].remove();
+                    }
+                    for (var _i4 = 0; _i4 < deletedCards.length; _i4++) {
+                        deletedCards[_i4].remove();
+                    }
+                }, 3000);
+            }
+        }, {
             key: 'render',
             value: function render() {
                 var dealerPoints = _react2.default.createElement(
@@ -10802,7 +10111,21 @@ document.addEventListener('DOMContentLoaded', function () {
                     { className: 'playerPoints' },
                     this.state.playerPoints
                 );
-
+                var won = _react2.default.createElement(
+                    'div',
+                    { className: 'won', style: this.state.won },
+                    'You Win!'
+                );
+                var lost = _react2.default.createElement(
+                    'div',
+                    { className: 'lost', style: this.state.lost },
+                    ' You Lost'
+                );
+                var draw = _react2.default.createElement(
+                    'div',
+                    { className: 'draw', style: this.state.draw },
+                    ' Draw!'
+                );
                 var decision = _react2.default.createElement(
                     'div',
                     null,
@@ -10843,13 +10166,16 @@ document.addEventListener('DOMContentLoaded', function () {
                         ),
                         _react2.default.createElement(
                             'button',
-                            { className: 'restart', type: 'button' },
+                            { className: 'restart', type: 'button', onClick: this.restartGameBtn },
                             'Restart'
                         )
                     ),
                     _react2.default.createElement(
                         'div',
                         { className: 'gameTable' },
+                        won,
+                        lost,
+                        draw,
                         _react2.default.createElement(
                             'div',
                             { className: 'dealerHand' },
