@@ -38,25 +38,25 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 won:{
                     fontSize:'100px',
-                    position:'absolute',
-                    left:'280',
-                    top:'220',
-                    display:'none',
-                    color:'#35FD00'
+                    color:'#35FD00',
+                    position: 'absolute',
+                    marginLeft: '20%',
+                    marginTop:'10%',
+                    display:'none'
                 },
                 lost:{
                     fontSize:'100px',
-                    position:'absolute',
-                    left:'280',
-                    top:'220',
+                    position: 'absolute',
+                    marginLeft: '20%',
+                    marginTop:'10%',
                     display:'none',
                     color:'rgb(163, 0, 4)'
                 },
                 draw:{
                     fontSize:'100px',
-                    position:'absolute',
-                    left:'350',
-                    top:'220',
+                    position: 'absolute',
+                    marginLeft: '20%',
+                    marginTop:'10%',
                     display:'none',
                     color:'#FFDA00'
                 },
@@ -154,17 +154,17 @@ document.addEventListener('DOMContentLoaded', function(){
                 },
                 won:{
                     fontSize:'100px',
-                    position:'absolute',
-                    left:'280',
-                    top:'220',
+                    position: 'absolute',
+                    marginLeft: '20%',
+                    marginTop:'10%',
                     display:'none',
                     color:'#35FD00'
                 },
                 lost:{
                     fontSize:'100px',
-                    position:'absolute',
-                    left:'280',
-                    top:'220',
+                    position: 'absolute',
+                    marginLeft: '20%',
+                    marginTop:'10%',
                     display:'none',
                     color:'rgb(163, 0, 4)'
                 }
@@ -282,9 +282,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     fontSize:'20px',
                 }
             })
-        }
-
-
+        };
 
                 showCards = () => {
                     if (this.state.bet <= this.state.balance && this.state.bet != 0) {
@@ -312,25 +310,25 @@ document.addEventListener('DOMContentLoaded', function(){
                             },
                             won:{
                                 fontSize:'100px',
-                                position:'absolute',
-                                left:'280',
-                                top:'220',
+                                position: 'absolute',
+                                marginLeft: '20%',
+                                marginTop:'10%',
                                 display:'none',
                                 color:'#35FD00'
                             },
                             lost:{
                                 fontSize:'100px',
-                                position:'absolute',
-                                left:'280',
-                                top:'220',
+                                position: 'absolute',
+                                marginLeft: '20%',
+                                marginTop:'10%',
                                 display:'none',
                                 color:'rgb(163, 0, 4)'
                             },
                             draw:{
                                 fontSize:'100px',
-                                position:'absolute',
-                                left:'350',
-                                top:'220',
+                                position: 'absolute',
+                                marginLeft: '20%',
+                                marginTop:'10%',
                                 display:'none',
                                 color:'#FFDA00'
                             }
@@ -338,7 +336,8 @@ document.addEventListener('DOMContentLoaded', function(){
                         });
 //ComponentDidMount
 
-                        setTimeout(function(){
+
+                        let showCard1 = setTimeout(function(){
                             let cardData = self.getCard();
                             let card = document.createElement("img");
                             card.className = "toDelete";
@@ -351,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function(){
                             card.setAttribute('style', 'height:73px; width: 58px;');
                         }, 1000);
 
-                        setTimeout(function(){
+                        let showCard2 = setTimeout(function(){
                             let cardData = self.getCard();
                             let card = document.createElement("img");
                             card.className = "toDelete";
@@ -365,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function(){
                             card.setAttribute('style', 'height:73px; width: 58px');
                         },1500);
 
-                        setTimeout(function(){
+                        let showCard3 = setTimeout(function(){
                             let cardData = self.getCard();
                             let card = document.createElement("img");
                             card.className = "toDelete";
@@ -383,9 +382,9 @@ document.addEventListener('DOMContentLoaded', function(){
                                     balance: self.state.balance + (self.state.bet * 1.5),
                                     won:{
                                         fontSize:'100px',
-                                        position:'absolute',
-                                        left:'280',
-                                        top:'220',
+                                        position: 'absolute',
+                                        marginLeft: '20%',
+                                        marginTop:'10%',
                                         display:'',
                                         color:'#35FD00'
                                     },
@@ -448,14 +447,14 @@ document.addEventListener('DOMContentLoaded', function(){
                 }
 
 
-                if ( this.state.dealerPoints + addPoints> this.state.playerPoints && (this.state.dealerPoints + addPoints < 22) ){
+                if ( (this.state.dealerPoints + addPoints > this.state.playerPoints) && (this.state.dealerPoints + addPoints < 22) ){
                     this.setState ({
                         balance: this.state.balance - this.state.bet,
                         lost:{
                             fontSize:'100px',
-                            position:'absolute',
-                            left:'280',
-                            top:'220',
+                            position: 'absolute',
+                            marginLeft: '20%',
+                            marginTop:'10%',
                             display:'',
                             color:'rgb(163, 0, 4)'
                         }
@@ -467,9 +466,9 @@ document.addEventListener('DOMContentLoaded', function(){
                             balance:this.state.balance + this.state.bet,
                             won:{
                                 fontSize:'100px',
-                                position:'absolute',
-                                left:'280',
-                                top:'220',
+                                position: 'absolute',
+                                marginLeft: '20%',
+                                marginTop:'10%',
                                 display:'',
                                 color:'#35FD00'
                             }
@@ -480,9 +479,9 @@ document.addEventListener('DOMContentLoaded', function(){
                         this.setState({
                             draw:{
                                 fontSize:'100px',
-                                position:'absolute',
-                                left:'350',
-                                top:'220',
+                                position: 'absolute',
+                                marginLeft: '20%',
+                                marginTop:'10%',
                                 display:'',
                                 color:'#FFDA00'
                             }
@@ -490,8 +489,6 @@ document.addEventListener('DOMContentLoaded', function(){
                         this.resetGame();
                     }
                 }
-
-
 
             doubleBtn = () => {
                 if (this.state.balance / 2 >= this.state.bet) {
@@ -535,9 +532,9 @@ document.addEventListener('DOMContentLoaded', function(){
                             balance: this.state.balance - this.state.bet *2,
                             lost:{
                                 fontSize:'100px',
-                                position:'absolute',
-                                left:'280',
-                                top:'220',
+                                position: 'absolute',
+                                marginLeft: '20%',
+                                marginTop:'10%',
                                 display:'',
                                 color:'rgb(163, 0, 4)'
                             }
@@ -548,9 +545,9 @@ document.addEventListener('DOMContentLoaded', function(){
                             balance: this.state.balance + this.state.bet *2,
                             won:{
                                 fontSize:'100px',
-                                position:'absolute',
-                                left:'280',
-                                top:'220',
+                                position: 'absolute',
+                                marginLeft: '20%',
+                                marginTop:'10%',
                                 display:'',
                                 color:'#35FD00'
                             }
@@ -592,9 +589,9 @@ document.addEventListener('DOMContentLoaded', function(){
                         balance: this.state.balance - this.state.bet,
                         lost:{
                             fontSize:'100px',
-                            position:'absolute',
-                            left:'280',
-                            top:'220',
+                            position: 'absolute',
+                            marginLeft: '20%',
+                            marginTop:'10%',
                             display:'',
                             color:'rgb(163, 0, 4)'
                         },
@@ -603,14 +600,13 @@ document.addEventListener('DOMContentLoaded', function(){
                 }
 
                 else if (this.state.playerPoints == 21) {
-                    //dodaj karty dealera
                     self.setState({
                         balance: this.state.balance + this.state.bet,
                         won:{
                             fontSize:'100px',
-                            position:'absolute',
-                            left:'280',
-                            top:'220',
+                            position: 'absolute',
+                            marginLeft: '20%',
+                            marginTop:'10%',
                             display:'',
                             color:'#35FD00'
                         }
@@ -625,53 +621,42 @@ document.addEventListener('DOMContentLoaded', function(){
 
             resetGame() {
 
-                    this.setState({
-                        bet: 0,
-                        src: '',
-                        showdecBtns: 'false',
-                        disabledBtnHit:'disabled',
-                        disabledBtnDouble:'disabled',
-                        disabledBtnHold:'disabled',
-                        disabledChip: '',
-                        cardStyle:{
-                            height:"73px",
-                            width:"58px",
-                        },
-                        dealerPoints:0,
-                        playerPoints:0,
-                        btn1:{
-                            display:'none'
-                        },
-                        btn2:{
-                            display:'none'
-                        },
-                        btn3:{
-                            display:'none'
-                        },
-                    });
+                this.setState({
+                    bet: 0,
+                    showdecBtns: 'false',
+                    disabledBtnHit:'disabled',
+                    disabledBtnDouble:'disabled',
+                    disabledBtnHold:'disabled',
+                    disabledChip: '',
+                    cardStyle:{
+                        height:"73px",
+                        width:"58px",
+                    },
+                    dealerPoints:0,
+                    playerPoints:0,
+                    btn1:{
+                        display:'none'
+                    },
+                    btn2:{
+                        display:'none'
+                    },
+                    btn3:{
+                        display:'none'
+                    }
+                });
                     setTimeout(function(){
-
                     let deletedCards = document.getElementsByClassName("toDelete");
-                    console.log(deletedCards)
 
-                    for(let i = 0; i < deletedCards.length; i++){
-                            deletedCards[i].remove();
-
-                    }
-                    console.log(deletedCards);
-                    for(let i = 0; i < deletedCards.length; i++){
-                            deletedCards[i].remove();
-
-                    }
-                    for(let i = 0; i < deletedCards.length; i++){
-                            deletedCards[i].remove();
-
+                    for(let j = 0; j<3; j++){
+                        for(let i = 0; i < deletedCards.length; i++){
+                                deletedCards[i].remove();
+                        }
                     }
                 },3000);
-
             }
 
         render(){
+
             let dealerPoints = <div className="dealerPoints">{this.state.dealerPoints}</div>;
             let playerPoints = <div className="playerPoints">{this.state.playerPoints}</div>;
             let won = <div className="won" style={this.state.won}>You Win!</div>;

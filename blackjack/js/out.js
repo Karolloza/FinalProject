@@ -9472,16 +9472,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     won: {
                         fontSize: '100px',
                         position: 'absolute',
-                        left: '280',
-                        top: '220',
+                        marginLeft: '20%',
+                        marginTop: '10%',
                         display: 'none',
                         color: '#35FD00'
                     },
                     lost: {
                         fontSize: '100px',
                         position: 'absolute',
-                        left: '280',
-                        top: '220',
+                        marginLeft: '20%',
+                        marginTop: '10%',
                         display: 'none',
                         color: 'rgb(163, 0, 4)'
                     }
@@ -9628,24 +9628,24 @@ document.addEventListener('DOMContentLoaded', function () {
                         won: {
                             fontSize: '100px',
                             position: 'absolute',
-                            left: '280',
-                            top: '220',
+                            marginLeft: '20%',
+                            marginTop: '10%',
                             display: 'none',
                             color: '#35FD00'
                         },
                         lost: {
                             fontSize: '100px',
                             position: 'absolute',
-                            left: '280',
-                            top: '220',
+                            marginLeft: '20%',
+                            marginTop: '10%',
                             display: 'none',
                             color: 'rgb(163, 0, 4)'
                         },
                         draw: {
                             fontSize: '100px',
                             position: 'absolute',
-                            left: '350',
-                            top: '220',
+                            marginLeft: '20%',
+                            marginTop: '10%',
                             display: 'none',
                             color: '#FFDA00'
                         }
@@ -9653,7 +9653,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                     //ComponentDidMount
 
-                    setTimeout(function () {
+
+                    var showCard1 = setTimeout(function () {
                         var cardData = _self.getCard();
                         var card = document.createElement("img");
                         card.className = "toDelete";
@@ -9666,7 +9667,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         card.setAttribute('style', 'height:73px; width: 58px;');
                     }, 1000);
 
-                    setTimeout(function () {
+                    var showCard2 = setTimeout(function () {
                         var cardData = _self.getCard();
                         var card = document.createElement("img");
                         card.className = "toDelete";
@@ -9680,7 +9681,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         card.setAttribute('style', 'height:73px; width: 58px');
                     }, 1500);
 
-                    setTimeout(function () {
+                    var showCard3 = setTimeout(function () {
                         var cardData = _self.getCard();
                         var card = document.createElement("img");
                         card.className = "toDelete";
@@ -9698,8 +9699,8 @@ document.addEventListener('DOMContentLoaded', function () {
                                 won: {
                                     fontSize: '100px',
                                     position: 'absolute',
-                                    left: '280',
-                                    top: '220',
+                                    marginLeft: '20%',
+                                    marginTop: '10%',
                                     display: '',
                                     color: '#35FD00'
                                 }
@@ -9766,8 +9767,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         lost: {
                             fontSize: '100px',
                             position: 'absolute',
-                            left: '280',
-                            top: '220',
+                            marginLeft: '20%',
+                            marginTop: '10%',
                             display: '',
                             color: 'rgb(163, 0, 4)'
                         }
@@ -9780,8 +9781,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         won: {
                             fontSize: '100px',
                             position: 'absolute',
-                            left: '280',
-                            top: '220',
+                            marginLeft: '20%',
+                            marginTop: '10%',
                             display: '',
                             color: '#35FD00'
                         }
@@ -9792,8 +9793,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         draw: {
                             fontSize: '100px',
                             position: 'absolute',
-                            left: '350',
-                            top: '220',
+                            marginLeft: '20%',
+                            marginTop: '10%',
                             display: '',
                             color: '#FFDA00'
                         }
@@ -9845,8 +9846,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             lost: {
                                 fontSize: '100px',
                                 position: 'absolute',
-                                left: '280',
-                                top: '220',
+                                marginLeft: '20%',
+                                marginTop: '10%',
                                 display: '',
                                 color: 'rgb(163, 0, 4)'
                             }
@@ -9858,8 +9859,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             won: {
                                 fontSize: '100px',
                                 position: 'absolute',
-                                left: '280',
-                                top: '220',
+                                marginLeft: '20%',
+                                marginTop: '10%',
                                 display: '',
                                 color: '#35FD00'
                             }
@@ -9902,22 +9903,21 @@ document.addEventListener('DOMContentLoaded', function () {
                         lost: {
                             fontSize: '100px',
                             position: 'absolute',
-                            left: '280',
-                            top: '220',
+                            marginLeft: '20%',
+                            marginTop: '10%',
                             display: '',
                             color: 'rgb(163, 0, 4)'
                         }
                     });
                     _this.resetGame();
                 } else if (_this.state.playerPoints == 21) {
-                    //dodaj karty dealera
                     self.setState({
                         balance: _this.state.balance + _this.state.bet,
                         won: {
                             fontSize: '100px',
                             position: 'absolute',
-                            left: '280',
-                            top: '220',
+                            marginLeft: '20%',
+                            marginTop: '10%',
                             display: '',
                             color: '#35FD00'
                         }
@@ -9962,25 +9962,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 won: {
                     fontSize: '100px',
+                    color: '#35FD00',
                     position: 'absolute',
-                    left: '280',
-                    top: '220',
-                    display: 'none',
-                    color: '#35FD00'
+                    marginLeft: '20%',
+                    marginTop: '10%',
+                    display: 'none'
                 },
                 lost: {
                     fontSize: '100px',
                     position: 'absolute',
-                    left: '280',
-                    top: '220',
+                    marginLeft: '20%',
+                    marginTop: '10%',
                     display: 'none',
                     color: 'rgb(163, 0, 4)'
                 },
                 draw: {
                     fontSize: '100px',
                     position: 'absolute',
-                    left: '350',
-                    top: '220',
+                    marginLeft: '20%',
+                    marginTop: '10%',
                     display: 'none',
                     color: '#FFDA00'
                 },
@@ -10059,7 +10059,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 this.setState({
                     bet: 0,
-                    src: '',
                     showdecBtns: 'false',
                     disabledBtnHit: 'disabled',
                     disabledBtnDouble: 'disabled',
@@ -10082,25 +10081,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 });
                 setTimeout(function () {
-
                     var deletedCards = document.getElementsByClassName("toDelete");
-                    console.log(deletedCards);
 
-                    for (var i = 0; i < deletedCards.length; i++) {
-                        deletedCards[i].remove();
-                    }
-                    console.log(deletedCards);
-                    for (var _i3 = 0; _i3 < deletedCards.length; _i3++) {
-                        deletedCards[_i3].remove();
-                    }
-                    for (var _i4 = 0; _i4 < deletedCards.length; _i4++) {
-                        deletedCards[_i4].remove();
+                    for (var j = 0; j < 3; j++) {
+                        for (var i = 0; i < deletedCards.length; i++) {
+                            deletedCards[i].remove();
+                        }
                     }
                 }, 3000);
             }
         }, {
             key: 'render',
             value: function render() {
+
                 var dealerPoints = _react2.default.createElement(
                     'div',
                     { className: 'dealerPoints' },
