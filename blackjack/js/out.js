@@ -9651,51 +9651,44 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
 
                     });
-                    //ComponentDidMount
-
 
                     var showCard1 = setTimeout(function () {
-                        var cardData = _self.getCard();
-                        var card = document.createElement("img");
-                        card.className = "toDelete";
-                        document.querySelector(".playerFirstCard").append(card);
-
-                        _self.setState({
-                            playerPoints: _self.state.playerPoints + cardData.getPoints(_self.state.playerPoints)
+                        var cardData = _this.getCard();
+                        _this.setState({
+                            playerPoints: _this.state.playerPoints + cardData.getPoints(_this.state.playerPoints),
+                            playerFirstCard: {
+                                show: true,
+                                file: cardData.file
+                            }
                         });
-                        card.setAttribute('src', cardData.file);
-                        card.setAttribute('style', 'height:73px; width: 58px;');
                     }, 1000);
 
                     var showCard2 = setTimeout(function () {
-                        var cardData = _self.getCard();
-                        var card = document.createElement("img");
-                        card.className = "toDelete";
-                        document.querySelector(".dealerSecondCard").append(card);
-
-                        _self.setState({
-                            dealerPoints: _self.state.dealerPoints + cardData.getPoints(_self.state.dealerPoints)
+                        var cardData = _this.getCard();
+                        _this.setState({
+                            dealerPoints: _this.state.dealerPoints + cardData.getPoints(_this.state.dealerPoints),
+                            dealerFirstCard: {
+                                show: true,
+                                file: cardData.file
+                            }
                         });
-
-                        card.setAttribute('src', cardData.file);
-                        card.setAttribute('style', 'height:73px; width: 58px');
                     }, 1500);
 
                     var showCard3 = setTimeout(function () {
-                        var cardData = _self.getCard();
-                        var card = document.createElement("img");
-                        card.className = "toDelete";
-                        document.querySelector(".playerSecondCard").append(card);
-
-                        _self.setState({
-                            playerPoints: _self.state.playerPoints + cardData.getPoints(_self.state.playerPoints)
+                        var cardData = _this.getCard();
+                        _this.setState({
+                            playerPoints: _this.state.playerPoints + cardData.getPoints(_this.state.playerPoints),
+                            playerSecondCard: {
+                                show: true,
+                                file: cardData.file
+                            }
                         });
 
-                        if (_self.state.playerPoints == 21) {
+                        if (_this.state.playerPoints == 21) {
                             console.log("BLACKJACK");
 
-                            _self.setState({
-                                balance: _self.state.balance + _self.state.bet * 1.5,
+                            _this.setState({
+                                balance: _this.state.balance + _this.state.bet * 1.5,
                                 won: {
                                     fontSize: '100px',
                                     position: 'absolute',
@@ -9707,11 +9700,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             });
                             _self.resetGame();
                         };
-                        card.setAttribute('src', cardData.file);
-                        card.setAttribute('style', 'height:73px; width: 58px');
                     }, 2000);
                 } else {
-
                     _this.setState({
                         styles: {
                             color: '#A30004',
@@ -9748,16 +9738,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if (_this.state.dealerPoints + addPoints < 17) {
                     var _cardData = _this.getCard();
-                    var card = document.createElement("img");
-                    card.className = "toDelete";
-                    document.querySelector(".dealerThirdCard").append(card);
-                    card.setAttribute('src', _cardData.file);
-                    card.setAttribute('style', 'height:73px; width: 58px');
-
                     _this.setState({
-                        dealerPoints: _this.state.dealerPoints + addPoints + _cardData.getPoints(_this.state.dealerPoints)
+                        dealerPoints: _this.state.dealerPoints + addPoints + _cardData.getPoints(_this.state.dealerPoints),
+                        dealerThirdCard: {
+                            show: true,
+                            file: _cardData.file
+                        }
                     });
-                    console.log(_this.state.playerPoints);
                     _this.resetGame();
                 }
 
@@ -9773,7 +9760,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             color: 'rgb(163, 0, 4)'
                         }
                     });
-
                     _this.resetGame();
                 } else if (_this.state.dealerPoints + addPoints < _this.state.playerPoints) {
                     _this.setState({
@@ -9818,26 +9804,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     if (_this.state.dealerPoints + cardPoints < 17) {
                         var thirdCardData = _this.getCard();
-                        var thirdCard = document.createElement("img");
-                        thirdCard.className = "toDelete";
-                        document.querySelector(".dealerThirdCard").append(thirdCard);
-                        thirdCard.setAttribute('src', thirdCardData.file);
-                        thirdCard.setAttribute('style', 'height:73px; width: 58px');
                         var thirdCardPoints = thirdCardData.getPoints(_this.state.dealerPoints + cardPoints);
                         _this.setState({
-                            dealerPoints: _this.state.dealerPoints + cardPoints + thirdCardPoints
+                            dealerPoints: _this.state.dealerPoints + cardPoints + thirdCardPoints,
+                            dealerThirdCard: {
+                                show: true,
+                                file: cardData.file
+                            }
                         });
                     };
 
                     var thirdPlayerCardData = _this.getCard();
-                    var thirdPlayerCard = document.createElement("img");
-                    thirdPlayerCard.className = "toDelete";
                     var thirdPlayerCardPoints = thirdPlayerCardData.getPoints(_this.state.playerPoints);
-                    document.querySelector(".player3Card").append(thirdPlayerCard);
-                    thirdPlayerCard.setAttribute('src', thirdPlayerCardData.file);
-                    thirdPlayerCard.setAttribute('style', 'height:73px; width: 58px');
                     _this.setState({
-                        playerPoints: _this.state.playerPoints + thirdPlayerCardPoints
+                        playerPoints: _this.state.playerPoints + thirdPlayerCardPoints,
+                        playerThirdCard: {
+                            show: true,
+                            file: cardData.file
+                        }
                     });
 
                     if (_this.state.playerPoints + thirdPlayerCardPoints > 21) {
@@ -9884,13 +9868,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
                 var counter = 3;
                 var cardData = _this.getCard();
-                var card = document.createElement("img");
-                card.className = "toDelete";
-                document.querySelector(".player" + counter + "Card").append(card);
                 var cardPoints = cardData.getPoints(_this.state.playerPoints);
-
                 _this.setState({
-                    playerPoints: _this.state.playerPoints + cardPoints
+                    playerPoints: _this.state.playerPoints + cardPoints,
+                    player3Card: {
+                        show: true,
+                        file: cardData.file
+                    }
                 });
 
                 if (_this.state.playerPoints + cardPoints > 21) {
@@ -9925,8 +9909,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     _this.resetGame();
                 }
 
-                card.setAttribute('src', cardData.file);
-                card.setAttribute('style', 'height:73px; width: 58px');
                 counter++;
             };
 
@@ -10119,6 +10101,40 @@ document.addEventListener('DOMContentLoaded', function () {
                     { className: 'draw', style: this.state.draw },
                     ' Draw!'
                 );
+
+                var playerFirstCard = void 0;
+                if (this.state.playerFirstCard && this.state.playerFirstCard.show) {
+                    playerFirstCard = _react2.default.createElement('img', { className: 'toDelete', src: this.state.playerFirstCard.file, style: { height: "73px", width: "58px" } });
+                }
+                var dealerFirstCard = void 0;
+                if (this.state.dealerFirstCard && this.state.dealerFirstCard.show) {
+                    dealerFirstCard = _react2.default.createElement('img', { className: 'toDelete', src: this.state.dealerFirstCard.file, style: { height: "73px", width: "58px" } });
+                }
+                var playerSecondCard = void 0;
+                if (this.state.playerSecondCard && this.state.playerSecondCard.show) {
+                    playerSecondCard = _react2.default.createElement('img', { className: 'toDelete', src: this.state.playerSecondCard.file, style: { height: "73px", width: "58px" } });
+                }
+                var dealerThirdCard = void 0;
+                if (this.state.dealerThirdCard && this.state.dealerThirdCard.show) {
+                    dealerThirdCard = _react2.default.createElement('img', { className: 'toDelete', src: this.state.dealerThirdCard.file, style: { height: "73px", width: "58px" } });
+                }
+                var playerThirdCard = void 0;
+                if (this.state.playerThirdCard && this.state.playerThirdCard.show) {
+                    playerThirdCard = _react2.default.createElement('img', { className: 'toDelete', src: this.state.playerThirdCard.file, style: { height: "73px", width: "58px" } });
+                }
+                var player3Card = void 0;
+                if (this.state.player3Card && this.state.player3Card.show) {
+                    player3Card = _react2.default.createElement('img', { className: 'toDelete', src: this.state.player3Card.file, style: { height: "73px", width: "58px" } });
+                }
+                var player4Card = void 0;
+                if (this.state.player4Card && this.state.player4Card.show) {
+                    player4Card = _react2.default.createElement('img', { className: 'toDelete', src: this.state.player4Card.file, style: { height: "73px", width: "58px" } });
+                }
+                var player5Card = void 0;
+                if (this.state.player5Card && this.state.player5Card.show) {
+                    player5Card = _react2.default.createElement('img', { className: 'toDelete', src: this.state.player5Card.file, style: { height: "73px", width: "58px" } });
+                }
+
                 var decision = _react2.default.createElement(
                     'div',
                     null,
@@ -10180,8 +10196,16 @@ document.addEventListener('DOMContentLoaded', function () {
                                     { className: 'dealerFirstCard' },
                                     _react2.default.createElement('img', { src: this.state.src, style: this.state.cardStyle })
                                 ),
-                                _react2.default.createElement('div', { className: 'dealerSecondCard' }),
-                                _react2.default.createElement('div', { className: 'dealerThirdCard' }),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'dealerSecondCard' },
+                                    dealerFirstCard
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'dealerThirdCard' },
+                                    dealerThirdCard
+                                ),
                                 _react2.default.createElement('div', { className: 'dealerFourthCard' }),
                                 _react2.default.createElement('div', { className: 'dealerFifthCard' }),
                                 _react2.default.createElement('div', { className: 'dealerSixthCard' }),
@@ -10209,11 +10233,32 @@ document.addEventListener('DOMContentLoaded', function () {
                                     null,
                                     playerPoints
                                 ),
-                                _react2.default.createElement('div', { className: 'playerFirstCard' }),
-                                _react2.default.createElement('div', { className: 'playerSecondCard' }),
-                                _react2.default.createElement('div', { className: 'player3Card' }),
-                                _react2.default.createElement('div', { className: 'player4Card' }),
-                                _react2.default.createElement('div', { className: 'player5Card' }),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'playerFirstCard' },
+                                    playerFirstCard
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'playerSecondCard' },
+                                    playerSecondCard
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'player3Card' },
+                                    playerThirdCard,
+                                    player3Card
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'player4Card' },
+                                    player4Card
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'player5Card' },
+                                    player5Card
+                                ),
                                 _react2.default.createElement('div', { className: 'player6Card' }),
                                 _react2.default.createElement('div', { className: 'player7Card' })
                             )

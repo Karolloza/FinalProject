@@ -334,52 +334,44 @@ document.addEventListener('DOMContentLoaded', function(){
                             }
 
                         });
-//ComponentDidMount
 
-
-                        let showCard1 = setTimeout(function(){
-                            let cardData = self.getCard();
-                            let card = document.createElement("img");
-                            card.className = "toDelete";
-                            document.querySelector(".playerFirstCard").append(card);
-
-                            self.setState({
-                                playerPoints: self.state.playerPoints + cardData.getPoints(self.state.playerPoints)
+                        let showCard1 = setTimeout(() => {
+                            let cardData = this.getCard();
+                            this.setState({
+                                playerPoints: this.state.playerPoints + cardData.getPoints(this.state.playerPoints),
+                                playerFirstCard:{
+                                    show:true,
+                                    file: cardData.file
+                                }
                             });
-                            card.setAttribute('src', cardData.file);
-                            card.setAttribute('style', 'height:73px; width: 58px;');
                         }, 1000);
 
-                        let showCard2 = setTimeout(function(){
-                            let cardData = self.getCard();
-                            let card = document.createElement("img");
-                            card.className = "toDelete";
-                            document.querySelector(".dealerSecondCard").append(card);
-
-                            self.setState({
-                                dealerPoints: self.state.dealerPoints + cardData.getPoints(self.state.dealerPoints)
+                        let showCard2 = setTimeout(() => {
+                            let cardData = this.getCard();
+                            this.setState({
+                                dealerPoints: this.state.dealerPoints + cardData.getPoints(this.state.dealerPoints),
+                                dealerFirstCard:{
+                                    show:true,
+                                    file: cardData.file
+                                }
                             });
-
-                            card.setAttribute('src', cardData.file);
-                            card.setAttribute('style', 'height:73px; width: 58px');
                         },1500);
 
-                        let showCard3 = setTimeout(function(){
-                            let cardData = self.getCard();
-                            let card = document.createElement("img");
-                            card.className = "toDelete";
-                            document.querySelector(".playerSecondCard").append(card);
-
-                            self.setState({
-                                playerPoints: self.state.playerPoints + cardData.getPoints(self.state.playerPoints)
+                        let showCard3 = setTimeout(() => {
+                            let cardData = this.getCard();
+                            this.setState({
+                                playerPoints: this.state.playerPoints + cardData.getPoints(this.state.playerPoints),
+                                playerSecondCard:{
+                                    show:true,
+                                    file: cardData.file
+                                }
                             });
 
-
-                            if(self.state.playerPoints == 21){
+                            if(this.state.playerPoints == 21){
                                 console.log("BLACKJACK");
 
-                                self.setState({
-                                    balance: self.state.balance + (self.state.bet * 1.5),
+                                this.setState({
+                                    balance: this.state.balance + (this.state.bet * 1.5),
                                     won:{
                                         fontSize:'100px',
                                         position: 'absolute',
@@ -391,12 +383,8 @@ document.addEventListener('DOMContentLoaded', function(){
                                 });
                                 self.resetGame();
                             };
-                            card.setAttribute('src', cardData.file);
-                            card.setAttribute('style', 'height:73px; width: 58px');
                         },2000);
-
                 } else {
-
                     this.setState({
                         styles:{
                             color:'#A30004',
@@ -407,7 +395,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 }
             }
 
-            holdBtn = () =>{
+            holdBtn = () => {
                 let cardData = this.getCard();
                 this.state.src = cardData.file;
                 this.setState({
@@ -433,16 +421,13 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 if(this.state.dealerPoints + addPoints<17){
                     let cardData = this.getCard();
-                    let card = document.createElement("img");
-                    card.className = "toDelete";
-                    document.querySelector(".dealerThirdCard").append(card);
-                    card.setAttribute('src', cardData.file);
-                    card.setAttribute('style', 'height:73px; width: 58px');
-
                     this.setState({
-                        dealerPoints: this.state.dealerPoints + addPoints + cardData.getPoints(this.state.dealerPoints)
+                        dealerPoints: this.state.dealerPoints + addPoints + cardData.getPoints(this.state.dealerPoints),
+                        dealerThirdCard:{
+                            show:true,
+                            file: cardData.file
+                        }
                     });
-                    console.log(this.state.playerPoints);
                     this.resetGame();
                 }
 
@@ -459,7 +444,6 @@ document.addEventListener('DOMContentLoaded', function(){
                             color:'rgb(163, 0, 4)'
                         }
                     });
-
                     this.resetGame();
                 } else if (this.state.dealerPoints + addPoints < this.state.playerPoints){
                         this.setState({
@@ -505,26 +489,24 @@ document.addEventListener('DOMContentLoaded', function(){
 
                     if (this.state.dealerPoints + cardPoints < 17) {
                         let thirdCardData = this.getCard();
-                        let thirdCard = document.createElement("img");
-                        thirdCard.className = "toDelete";
-                        document.querySelector(".dealerThirdCard").append(thirdCard);
-                        thirdCard.setAttribute('src', thirdCardData.file);
-                        thirdCard.setAttribute('style', 'height:73px; width: 58px');
                         let thirdCardPoints = thirdCardData.getPoints(this.state.dealerPoints + cardPoints);
                         this.setState({
                             dealerPoints: this.state.dealerPoints + cardPoints + thirdCardPoints,
+                            dealerThirdCard:{
+                                show:true,
+                                file: cardData.file
+                            }
                         });
                     };
 
                     let thirdPlayerCardData = this.getCard();
-                    let thirdPlayerCard = document.createElement("img");
-                    thirdPlayerCard.className = "toDelete";
                     let thirdPlayerCardPoints = thirdPlayerCardData.getPoints(this.state.playerPoints);
-                    document.querySelector(".player3Card").append(thirdPlayerCard);
-                    thirdPlayerCard.setAttribute('src', thirdPlayerCardData.file);
-                    thirdPlayerCard.setAttribute('style', 'height:73px; width: 58px');
                     this.setState({
-                        playerPoints: this.state.playerPoints + thirdPlayerCardPoints
+                        playerPoints: this.state.playerPoints + thirdPlayerCardPoints,
+                        playerThirdCard:{
+                            show:true,
+                            file: cardData.file
+                        }
                     });
 
                     if (this.state.playerPoints + thirdPlayerCardPoints > 21) {
@@ -571,13 +553,13 @@ document.addEventListener('DOMContentLoaded', function(){
                 })
                 let counter = 3;
                 let cardData = this.getCard();
-                let card = document.createElement("img");
-                card.className = "toDelete";
-                document.querySelector(".player" + counter + "Card").append(card);
                 let cardPoints = cardData.getPoints(this.state.playerPoints);
-
                 this.setState({
                     playerPoints: this.state.playerPoints + cardPoints,
+                    player3Card:{
+                        show:true,
+                        file: cardData.file
+                    }
                 });
 
                 if (this.state.playerPoints + cardPoints > 21) {
@@ -614,8 +596,6 @@ document.addEventListener('DOMContentLoaded', function(){
                     this.resetGame();
                 }
 
-                card.setAttribute('src', cardData.file);
-                card.setAttribute('style', 'height:73px; width: 58px');
                 counter++;
             };
 
@@ -644,7 +624,7 @@ document.addEventListener('DOMContentLoaded', function(){
                         display:'none'
                     }
                 });
-                    setTimeout(function(){
+                    setTimeout(() => {
                     let deletedCards = document.getElementsByClassName("toDelete");
 
                     for(let j = 0; j<3; j++){
@@ -662,6 +642,40 @@ document.addEventListener('DOMContentLoaded', function(){
             let won = <div className="won" style={this.state.won}>You Win!</div>;
             let lost = <div className ="lost" style={this.state.lost}> You Lost</div>;
             let draw = <div className ="draw" style={this.state.draw}> Draw!</div>;
+
+            let playerFirstCard;
+            if(this.state.playerFirstCard && this.state.playerFirstCard.show){
+                playerFirstCard = <img className="toDelete" src={this.state.playerFirstCard.file} style={{height:"73px", width:"58px"}}/>;
+            }
+            let dealerFirstCard;
+            if(this.state.dealerFirstCard && this.state.dealerFirstCard.show){
+                dealerFirstCard = <img className="toDelete" src={this.state.dealerFirstCard.file} style={{height:"73px", width:"58px"}}/>;
+            }
+            let playerSecondCard;
+            if(this.state.playerSecondCard && this.state.playerSecondCard.show){
+                playerSecondCard = <img className="toDelete" src={this.state.playerSecondCard.file} style={{height:"73px", width:"58px"}}/>;
+            }
+            let dealerThirdCard;
+            if(this.state.dealerThirdCard && this.state.dealerThirdCard.show){
+                dealerThirdCard = <img className="toDelete" src={this.state.dealerThirdCard.file} style={{height:"73px", width:"58px"}}/>;
+            }
+            let playerThirdCard;
+            if(this.state.playerThirdCard && this.state.playerThirdCard.show){
+                playerThirdCard = <img className="toDelete" src={this.state.playerThirdCard.file} style={{height:"73px", width:"58px"}}/>;
+            }
+            let player3Card;
+            if(this.state.player3Card && this.state.player3Card.show){
+                player3Card = <img className="toDelete" src={this.state.player3Card.file} style={{height:"73px", width:"58px"}}/>;
+            }
+            let player4Card;
+            if(this.state.player4Card && this.state.player4Card.show){
+                player4Card = <img className="toDelete" src={this.state.player4Card.file} style={{height:"73px", width:"58px"}}/>;
+            }
+            let player5Card;
+            if(this.state.player5Card && this.state.player5Card.show){
+                player5Card = <img className="toDelete" src={this.state.player5Card.file} style={{height:"73px", width:"58px"}}/>;
+            }
+
             const decision = <div>
                     <button className='decBtn1' style={this.state.btn1} onClick={this.holdBtn} disabled={this.state.disabledBtnHold}>HOLD</button>
                     <button className='decBtn2' style={this.state.btn2} onClick={this.doubleBtn} disabled={this.state.disabledBtnDouble}>DOUBLE</button>
@@ -681,8 +695,8 @@ document.addEventListener('DOMContentLoaded', function(){
                             <div className="dealerFirstCard">
                                 <img src={this.state.src} style={this.state.cardStyle}/>
                             </div>
-                            <div className="dealerSecondCard"></div>
-                            <div className="dealerThirdCard"></div>
+                            <div className="dealerSecondCard">{dealerFirstCard}</div>
+                            <div className="dealerThirdCard">{dealerThirdCard}</div>
                             <div className="dealerFourthCard"></div>
                             <div className="dealerFifthCard"></div>
                             <div className="dealerSixthCard"></div>
@@ -696,11 +710,11 @@ document.addEventListener('DOMContentLoaded', function(){
                         </div>
                         <div className="placedPlayerCards">
                             <div>{playerPoints}</div>
-                            <div className="playerFirstCard"></div>
-                            <div className="playerSecondCard"></div>
-                            <div className="player3Card"></div>
-                            <div className="player4Card"></div>
-                            <div className="player5Card"></div>
+                            <div className="playerFirstCard">{playerFirstCard}</div>
+                            <div className="playerSecondCard">{playerSecondCard}</div>
+                            <div className="player3Card">{playerThirdCard}{player3Card}</div>
+                            <div className="player4Card">{player4Card}</div>
+                            <div className="player5Card">{player5Card}</div>
                             <div className="player6Card"></div>
                             <div className="player7Card"></div>
                         </div>
