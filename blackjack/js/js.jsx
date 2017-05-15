@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     display:'none',
                     color:'#FFDA00'
                 },
+                cardCounter: 3,
 
                 card2club: "Pictures/cards/2-club.png",
                 card2dmd: "Pictures/cards/2-dmd.png",
@@ -167,7 +168,16 @@ document.addEventListener('DOMContentLoaded', function(){
                     marginTop:'10%',
                     display:'none',
                     color:'rgb(163, 0, 4)'
-                }
+                },
+                cardCounter: 3,
+                playerFirstCard: null,
+                playerSecondCard: null,
+                playerThirdCard: null,
+                player3Card: null,
+                player4Card: null,
+                player5Card: null,
+                dealerFirstCard: null,
+                dealerThirdCard: null
             });
 
             let deletedCards = document.getElementsByClassName("toDelete");
@@ -381,7 +391,9 @@ document.addEventListener('DOMContentLoaded', function(){
                                         color:'#35FD00'
                                     },
                                 });
-                                self.resetGame();
+                                setTimeout(() => {
+                                    this.resetGame();
+                                }, 3000);
                             };
                         },2000);
                 } else {
@@ -428,7 +440,9 @@ document.addEventListener('DOMContentLoaded', function(){
                             file: cardData.file
                         }
                     });
-                    this.resetGame();
+                    setTimeout(() => {
+                        this.resetGame();
+                    }, 3000);
                 }
 
 
@@ -444,7 +458,9 @@ document.addEventListener('DOMContentLoaded', function(){
                             color:'rgb(163, 0, 4)'
                         }
                     });
-                    this.resetGame();
+                    setTimeout(() => {
+                        this.resetGame();
+                    }, 3000);
                 } else if (this.state.dealerPoints + addPoints < this.state.playerPoints){
                         this.setState({
                             balance:this.state.balance + this.state.bet,
@@ -457,7 +473,9 @@ document.addEventListener('DOMContentLoaded', function(){
                                 color:'#35FD00'
                             }
                         });
-                        this.resetGame();
+                        setTimeout(() => {
+                            this.resetGame();
+                        }, 3000);
                     }
                     else if(this.state.dealerPoints + addPoints == this.state.playerPoints){
                         this.setState({
@@ -470,7 +488,9 @@ document.addEventListener('DOMContentLoaded', function(){
                                 color:'#FFDA00'
                             }
                         });
-                        this.resetGame();
+                        setTimeout(() => {
+                            this.resetGame();
+                        }, 3000);
                     }
                 }
 
@@ -521,7 +541,9 @@ document.addEventListener('DOMContentLoaded', function(){
                                 color:'rgb(163, 0, 4)'
                             }
                         });
-                        this.resetGame();
+                        setTimeout(() => {
+                            this.resetGame();
+                        }, 3000);
                     } else if( (this.state.playerPoints + thirdPlayerCardPoints < 22 ) && (this.state.playerPoints + thirdPlayerCardPoints > this.state.dealerPoints) ){
                         this.setState({
                             balance: this.state.balance + this.state.bet *2,
@@ -534,7 +556,9 @@ document.addEventListener('DOMContentLoaded', function(){
                                 color:'#35FD00'
                             }
                         });
-                        this.resetGame();
+                        setTimeout(() => {
+                            this.resetGame();
+                        }, 3000);
                     }
                 } else {
                     this.setState({
@@ -548,92 +572,101 @@ document.addEventListener('DOMContentLoaded', function(){
             };
 
             hitBtn1 = () =>{
-                this.setState({
-                    disabledBtnDouble: 'disabled',
-                })
-                let counter = 3;
-                let cardData = this.getCard();
-                let cardPoints = cardData.getPoints(this.state.playerPoints);
-                this.setState({
-                    playerPoints: this.state.playerPoints + cardPoints,
-                    player3Card:{
-                        show:true,
-                        file: cardData.file
-                    }
-                });
-
-                if (this.state.playerPoints + cardPoints > 21) {
-                    console.log("przegrywasz");
-                    this.setState({
-                        disabledBtnHit:'disabled',
-                        disabledBtnHold:'disabled',
-                        disabledBtnDouble:'disabled',
-                        balance: this.state.balance - this.state.bet,
-                        lost:{
-                            fontSize:'100px',
-                            position: 'absolute',
-                            marginLeft: '20%',
-                            marginTop:'10%',
-                            display:'',
-                            color:'rgb(163, 0, 4)'
-                        },
-                    });
-                    this.resetGame();
-                }
-
-                else if (this.state.playerPoints == 21) {
-                    self.setState({
-                        balance: this.state.balance + this.state.bet,
-                        won:{
-                            fontSize:'100px',
-                            position: 'absolute',
-                            marginLeft: '20%',
-                            marginTop:'10%',
-                            display:'',
-                            color:'#35FD00'
-                        }
-                    });
-                    this.resetGame();
-                }
-
-                counter++;
+            let cardData = this.getCard();
+            let cardPoints = cardData.getPoints(this.state.playerPoints);
+            let cardCounter = this.state.cardCounter;
+            let newState = {
+                disabledBtnDouble: 'disabled',
+                playerPoints: this.state.playerPoints + cardPoints,
+                cardCounter: cardCounter + 1
             };
+            newState['player' + cardCounter + 'Card'] = {
+                show:true,
+                file: cardData.file
+            };
+            this.setState(newState);
 
-            resetGame() {
-
+            if (this.state.playerPoints + cardPoints > 21) {
+                console.log("przegrywasz");
                 this.setState({
-                    bet: 0,
-                    showdecBtns: 'false',
                     disabledBtnHit:'disabled',
-                    disabledBtnDouble:'disabled',
                     disabledBtnHold:'disabled',
-                    disabledChip: '',
-                    cardStyle:{
-                        height:"73px",
-                        width:"58px",
-                    },
-                    dealerPoints:0,
-                    playerPoints:0,
-                    btn1:{
-                        display:'none'
-                    },
-                    btn2:{
-                        display:'none'
-                    },
-                    btn3:{
-                        display:'none'
+                    disabledBtnDouble:'disabled',
+                    balance: this.state.balance - this.state.bet,
+                    lost:{
+                        fontSize:'100px',
+                        position: 'absolute',
+                        marginLeft: '20%',
+                        marginTop:'10%',
+                        display:'',
+                        color:'rgb(163, 0, 4)'
                     }
                 });
-                    setTimeout(() => {
-                    let deletedCards = document.getElementsByClassName("toDelete");
-
-                    for(let j = 0; j<3; j++){
-                        for(let i = 0; i < deletedCards.length; i++){
-                                deletedCards[i].remove();
-                        }
-                    }
-                },3000);
+                setTimeout(() => {
+                    this.resetGame();
+                }, 3000);
             }
+
+            else if (this.state.playerPoints == 21) {
+                self.setState({
+                    balance: this.state.balance + this.state.bet,
+                    won:{
+                        fontSize:'100px',
+                        position: 'absolute',
+                        marginLeft: '20%',
+                        marginTop:'10%',
+                        display:'',
+                        color:'#35FD00'
+                    }
+                });
+                setTimeout(() => {
+                    this.resetGame();
+                }, 3000);
+            }
+        };
+
+        resetGame() {
+            this.setState({
+                won: {
+                    display: 'none'
+                },
+                        lost: {
+                    display: 'none'
+                },
+                src: 'Pictures/cards/back.jpg',
+                bet: 0,
+                showdecBtns: 'false',
+                disabledBtnHit:'disabled',
+                disabledBtnDouble:'disabled',
+                disabledBtnHold:'disabled',
+                disabledChip: '',
+                cardStyle:{
+                    height:"73px",
+                    width:"58px",
+                },
+                dealerPoints:0,
+                playerPoints:0,
+                btn1:{
+                    display:'none'
+                },
+                btn2:{
+                    display:'none'
+                },
+                btn3:{
+                    display:'none'
+                },
+                playerFirstCard: null,
+                playerSecondCard: null,
+                playerThirdCard: null,
+                player3Card: null,
+                player4Card: null,
+                player5Card: null,
+                dealerFirstCard: null,
+                dealerThirdCard: null,
+                cardCounter: 3
+            });
+        }
+
 
         render(){
 
